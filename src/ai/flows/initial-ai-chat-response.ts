@@ -60,10 +60,7 @@ const initialAIChatResponseFlow = ai.defineFlow(
     outputSchema: InitialAIChatResponseOutputSchema,
   },
   async input => {
-    const {text} = await ai.generate({
-      prompt: prompt,
-      input
-    });
-    return {response: text!};
+    const {output} = await prompt(input);
+    return output!;
   }
 );
