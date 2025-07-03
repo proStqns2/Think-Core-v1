@@ -94,3 +94,12 @@
     animation: grid-pan 10s linear infinite;
   }
 }
+
+body.landing-page-active {
+  background: black !important;
+}
+
+body.landing-page-active::before,
+body.landing-page-active::after {
+  display: none;
+}

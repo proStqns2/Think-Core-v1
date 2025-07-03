@@ -1,123 +1,48 @@
 'use client';
 
-import * as React from 'react';
-import { initialAIChatResponse } from '@/ai/flows/initial-ai-chat-response';
-import { summarizeChatHistory } from '@/ai/flows/summarize-chat-history';
-import { useToast } from '@/hooks/use-toast';
-import type { Message } from '@/lib/types';
-import { ChatLayout } from '@/components/chat/chat-layout';
-import { nanoid } from 'nanoid';
+import Link from 'next/link';
+import { useEffect } from 'react';
+import DigitalRain from '@/components/digital-rain';
+import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/ui/logo';
+import { cn } from '@/lib/utils';
 
-export default function Home() {
-  const [messages, setMessages] = React.useState<Message[]>([]);
-  const [input, setInput] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(false);
-  const { toast } = useToast();
-
-  const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
-
-    const userMessage: Message = {
-      id: nanoid(),
-      role: 'user',
-      content: input,
-      createdAt: new Date(),
+export default function OpeningPage() {
+  useEffect(() => {
+    document.body.classList.add('landing-page-active');
+    return () => {
+      document.body.classList.remove('landing-page-active');
     };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setInput('');
-    setIsLoading(true);
-
-    try {
-      const aiResponse = await initialAIChatResponse({ prompt: input });
-      const assistantMessage: Message = {
-        id: nanoid(),
-        role: 'assistant',
-        content: aiResponse.response,
-        createdAt: new Date(),
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error('Error getting AI response:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to get a response from the AI. Please try again.',
-        variant: 'destructive',
-      });
-      setMessages((prev) => prev.slice(0, -1)); // Remove user message on error
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSummarize = async () => {
-    if (messages.length === 0 || isLoading) return;
-
-    setIsLoading(true);
-    try {
-      const chatHistory = messages
-        .map((msg) => `${msg.role}: ${msg.content}`)
-        .join('\n');
-      
-      const { summary } = await summarizeChatHistory({ chatHistory });
-
-      const summaryMessage: Message = {
-        id: nanoid(),
-        role: 'system',
-        content: `Conversation summary:\n${summary}`,
-        createdAt: new Date(),
-      };
-      setMessages((prev) => [...prev, summaryMessage]);
-    } catch (error) {
-      console.error('Error summarizing chat:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to summarize the conversation.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleExport = () => {
-    if (messages.length === 0) return;
-    const chatLog = messages
-      .map(
-        (msg) =>
-          `[${msg.createdAt?.toLocaleString()}] ${msg.role.toUpperCase()}: ${
-            msg.content
-          }`
-      )
-      .join('\n\n');
-
-    const blob = new Blob([chatLog], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `think-code-ai-chat-${new Date().toISOString()}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    toast({
-      title: 'Success',
-      description: 'Chat log has been exported.',
-    });
-  };
+  }, []);
 
   return (
-    <main className="flex h-screen flex-col items-center justify-center p-4 md:p-6 bg-transparent">
-      <ChatLayout
-        messages={messages}
-        input={input}
-        handleInputChange={(e) => setInput(e.target.value)}
-        handleSendMessage={handleSendMessage}
-        isLoading={isLoading}
-        onSummarize={handleSummarize}
-        onExport={handleExport}
-      />
-    </main>
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <DigitalRain />
+      </div>
+      <div className="relative z-10 flex flex-col items-center justify-center text-center p-4">
+        <div style={{'--primary': '145 63% 59%'} as React.CSSProperties} className="drop-shadow-[0_0_15px_rgba(74,222,128,0.8)]">
+            <Logo className="w-24 h-24" />
+        </div>
+        <h1 className="mt-6 text-5xl font-bold text-[#4ade80] drop-shadow-[0_0_10px_rgba(74,222,128,0.8)] tracking-widest" style={{ fontFamily: "'Courier New', Courier, monospace" }}>
+          Think Code AI
+        </h1>
+        <p className="mt-4 text-lg text-[#86efac] drop-shadow-[0_0_5px_rgba(74,222,128,0.6)]">
+          Your collaborative AI coding partner.
+        </p>
+        <Link href="/chat" passHref>
+          <Button
+            className={cn(
+              'mt-8 px-8 py-4 text-lg bg-[#22c55e]/10 text-[#86efac] border-2 border-[#4ade80] rounded-none',
+              'hover:bg-[#4ade80] hover:text-black hover:shadow-[0_0_20px_rgba(74,222,128,0.8)] transition-all duration-300',
+              'tracking-[0.2em] uppercase'
+            )}
+            variant="outline"
+          >
+            Enter
+          </Button>
+        </Link>
+      </div>
+    </div>
   );
 }
