@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { BrainCircuit } from 'lucide-react';
+import { Logo } from '@/components/ui/logo';
 
 export default function LoginPage() {
   return (
@@ -18,7 +18,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="text-center">
           <div className="flex justify-center items-center mb-4">
-            <BrainCircuit className="w-8 h-8 text-primary" />
+            <Logo className="w-8 h-8 text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
           <CardDescription>

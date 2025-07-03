@@ -4,7 +4,7 @@ import * as React from 'react';
 import type { Message } from '@/lib/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatMessage } from './chat-message';
-import { BrainCircuit } from 'lucide-react';
+import { Logo } from '../ui/logo';
 
 interface ChatMessagesProps {
   messages: Message[];
@@ -28,7 +28,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
       <div className="p-4 md:p-6">
         {messages.length === 0 && !isLoading ? (
           <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
-             <BrainCircuit className="w-16 h-16 mb-4 text-primary" />
+             <Logo className="w-16 h-16 mb-4 text-primary" />
             <h2 className="text-2xl font-semibold">Welcome to Think Code AI</h2>
             <p className="mt-2">Your collaborative AI coding partner. Start a conversation below.</p>
           </div>

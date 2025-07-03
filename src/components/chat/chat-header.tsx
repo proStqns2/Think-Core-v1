@@ -3,7 +3,6 @@ import {
   MessageSquareQuote,
   Download,
   Upload,
-  BrainCircuit,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -14,6 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { Logo } from '../ui/logo';
 
 interface ChatHeaderProps {
   onSummarize: () => void;
@@ -24,7 +24,7 @@ export function ChatHeader({ onSummarize, onExport }: ChatHeaderProps) {
   return (
     <header className="flex items-center justify-between p-4 border-b">
       <div className="flex items-center gap-2">
-        <BrainCircuit className="h-6 w-6 text-primary" />
+        <Logo className="h-6 w-6 text-primary" />
         <h1 className="text-xl font-bold tracking-tight text-primary">Think Code AI</h1>
       </div>
       <div className="flex items-center gap-4">
