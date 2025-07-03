@@ -88,10 +88,15 @@ export default {
             height: '0',
           },
         },
+        'grid-pan': {
+          '0%': { backgroundPosition: '0% 0%' },
+          '100%': { backgroundPosition: '50px 50px' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'grid-pan': 'grid-pan 10s linear infinite',
       },
     },
   },
