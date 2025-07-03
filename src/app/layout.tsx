@@ -4,8 +4,8 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'EloquentAI',
-  description: 'An intelligent AI-powered chat application',
+  title: 'Think Code AI',
+  description: 'A collaborative AI coding partner',
 };
 
 export default function RootLayout({

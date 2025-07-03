@@ -96,7 +96,7 @@ export default function Home() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `eloquent-ai-chat-${new Date().toISOString()}.txt`;
+    link.download = `think-code-ai-chat-${new Date().toISOString()}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -108,7 +108,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex h-screen flex-col items-center justify-center p-4 md:p-6">
+    <main className="flex h-screen flex-col items-center justify-center p-4 md:p-6 bg-transparent">
       <ChatLayout
         messages={messages}
         input={input}

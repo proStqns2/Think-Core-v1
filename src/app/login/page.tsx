@@ -10,19 +10,19 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Bot } from 'lucide-react';
+import { BrainCircuit } from 'lucide-react';
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <div className="flex min-h-screen items-center justify-center bg-transparent p-4">
       <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="text-center">
           <div className="flex justify-center items-center mb-4">
-            <Bot className="w-8 h-8 text-primary" />
+            <BrainCircuit className="w-8 h-8 text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
           <CardDescription>
-            Log in to your EloquentAI account to continue.
+            Log in to your Think Code AI account to continue.
           </CardDescription>
         </CardHeader>
         <CardContent>

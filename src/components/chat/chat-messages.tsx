@@ -4,7 +4,7 @@ import * as React from 'react';
 import type { Message } from '@/lib/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatMessage } from './chat-message';
-import { Bot } from 'lucide-react';
+import { BrainCircuit } from 'lucide-react';
 
 interface ChatMessagesProps {
   messages: Message[];
@@ -28,9 +28,9 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
       <div className="p-4 md:p-6">
         {messages.length === 0 && !isLoading ? (
           <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
-             <Bot className="w-16 h-16 mb-4 text-primary" />
-            <h2 className="text-2xl font-semibold">Welcome to EloquentAI</h2>
-            <p className="mt-2">Start a conversation by typing a message below.</p>
+             <BrainCircuit className="w-16 h-16 mb-4 text-primary" />
+            <h2 className="text-2xl font-semibold">Welcome to Think Code AI</h2>
+            <p className="mt-2">Your collaborative AI coding partner. Start a conversation below.</p>
           </div>
         ) : (
           <div className="space-y-4">

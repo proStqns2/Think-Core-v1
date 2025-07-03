@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import type { Message } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Bot, BrainCircuit, User } from 'lucide-react';
+import { BrainCircuit, User } from 'lucide-react';
 import { Skeleton } from '../ui/skeleton';
 
 interface ChatMessageProps {
@@ -15,7 +15,7 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
       <div className="flex items-start gap-4">
         <Avatar className="h-9 w-9 border">
           <AvatarFallback>
-            <Bot className="h-5 w-5 text-primary" />
+            <BrainCircuit className="h-5 w-5 text-primary" />
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-2">
@@ -45,7 +45,7 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
             {isSystem ? (
               <BrainCircuit className="h-5 w-5 text-accent" />
             ) : (
-              <Bot className="h-5 w-5 text-primary" />
+              <BrainCircuit className="h-5 w-5 text-primary" />
             )}
           </AvatarFallback>
         </Avatar>

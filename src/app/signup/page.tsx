@@ -10,19 +10,19 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Bot } from 'lucide-react';
+import { BrainCircuit } from 'lucide-react';
 
 export default function SignupPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <div className="flex min-h-screen items-center justify-center bg-transparent p-4">
       <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="text-center">
           <div className="flex justify-center items-center mb-4">
-            <Bot className="w-8 h-8 text-primary" />
+            <BrainCircuit className="w-8 h-8 text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold">Create an Account</CardTitle>
           <CardDescription>
-            Join EloquentAI and start your intelligent conversation.
+            Join Think Code AI and start your intelligent conversation.
           </CardDescription>
         </CardHeader>
         <CardContent>
