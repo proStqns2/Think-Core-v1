@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,8 +13,19 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/ui/logo';
+import { useToast } from '@/hooks/use-toast';
 
 export default function LoginPage() {
+  const { toast } = useToast();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    toast({
+      title: 'Feature not implemented',
+      description: 'Login functionality is not yet available.',
+    });
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-transparent p-4">
       <Card className="w-full max-w-md shadow-2xl">
@@ -26,7 +39,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
