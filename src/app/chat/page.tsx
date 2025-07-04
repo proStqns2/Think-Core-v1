@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useSearchParams } from 'next/navigation';
 import { initialAIChatResponse } from '@/ai/flows/initial-ai-chat-response';
 import { advancedAIChatResponse } from '@/ai/flows/advanced-ai-chat-response';
 import { summarizeChatHistory } from '@/ai/flows/summarize-chat-history';
@@ -9,31 +10,31 @@ import type { Message } from '@/lib/types';
 import { ChatLayout } from '@/components/chat/chat-layout';
 import { nanoid } from 'nanoid';
 import NeuralNetworkAnimation from '@/components/neural-network-animation';
+import DigitalRain from '@/components/digital-rain';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export default function ChatPage() {
+function ChatPageContent() {
+  const searchParams = useSearchParams();
+  const initialMode = searchParams.get('mode') === 'advanced' ? 'advanced' : 'standard';
+
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [input, setInput] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
-  const [mode, setMode] = React.useState('standard');
+  const [mode, setMode] = React.useState(initialMode);
   const { toast } = useToast();
 
   React.useEffect(() => {
     if (mode === 'advanced') {
       document.body.classList.add('advanced-mode');
+      document.body.classList.remove('landing-page-active');
     } else {
       document.body.classList.remove('advanced-mode');
+      document.body.classList.add('landing-page-active');
     }
     return () => {
-      document.body.classList.remove('advanced-mode');
+      document.body.classList.remove('advanced-mode', 'landing-page-active');
     };
   }, [mode]);
-
-  React.useEffect(() => {
-    document.body.classList.add('landing-page-active');
-    return () => {
-      document.body.classList.remove('landing-page-active');
-    };
-  }, []);
 
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,7 +72,7 @@ export default function ChatPage() {
         description: 'Failed to get a response from the AI. Please try again.',
         variant: 'destructive',
       });
-      setMessages((prev) => prev.slice(0, -1)); // Remove user message on error
+      setMessages((prev) => prev.slice(0, -1));
     } finally {
       setIsLoading(false);
     }
@@ -136,7 +137,7 @@ export default function ChatPage() {
   return (
     <>
       <div className="absolute inset-0 z-0">
-        <NeuralNetworkAnimation />
+        {mode === 'advanced' ? <NeuralNetworkAnimation /> : <DigitalRain />}
       </div>
       <main className="relative z-10 flex h-screen flex-col items-center justify-center p-4 md:p-6 bg-transparent">
         <ChatLayout
@@ -152,5 +153,24 @@ export default function ChatPage() {
         />
       </main>
     </>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-black">
+      <div className="flex flex-col items-center gap-4">
+        <Skeleton className="h-24 w-24 rounded-full" />
+        <Skeleton className="h-8 w-48" />
+      </div>
+    </div>
+  );
+}
+
+export default function ChatPage() {
+  return (
+    <React.Suspense fallback={<LoadingFallback />}>
+      <ChatPageContent />
+    </React.Suspense>
   );
 }
