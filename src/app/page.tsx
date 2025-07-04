@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect } from 'react';
-import DigitalRain from '@/components/digital-rain';
+import NeuralNetworkAnimation from '@/components/neural-network-animation';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/ui/logo';
 import { cn } from '@/lib/utils';
@@ -18,7 +18,7 @@ export default function OpeningPage() {
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <DigitalRain />
+        <NeuralNetworkAnimation />
       </div>
       <div className="relative z-10 flex flex-col items-center justify-center text-center p-4">
         <div style={{'--primary': '231 48% 48%'} as React.CSSProperties} className="drop-shadow-[0_0_15px_rgba(94,114,228,0.8)]">
