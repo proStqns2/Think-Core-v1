@@ -86,9 +86,11 @@ const NeuralNetworkAnimation: React.FC = () => {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    
+    const container = canvas.parentElement;
+    if (!container) return;
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
 
     particles.current = [];
     const numberOfParticles = (canvas.height * canvas.width) / 4500;

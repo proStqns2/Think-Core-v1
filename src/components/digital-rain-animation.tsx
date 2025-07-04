@@ -12,8 +12,11 @@ const DigitalRainAnimation: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const container = canvas.parentElement;
+    if (!container) return;
+
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
 
     const characters = '01';
     const fontSize = 16;
