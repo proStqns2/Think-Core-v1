@@ -84,6 +84,7 @@ export default function CudaPage() {
     <div className="relative h-screen">
       <LetterGlitch
         glitchColors={['#ff8c00', '#e67300', '#ffa500']}
+        numberColor="#86efac"
         glitchSpeed={50}
         centerVignette={false}
         outerVignette={true}

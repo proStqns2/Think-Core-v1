@@ -9,6 +9,7 @@ interface LetterGlitchProps {
   centerVignette?: boolean;
   outerVignette?: boolean;
   smooth?: boolean;
+  numberColor?: string;
 }
 
 const LetterGlitch: React.FC<LetterGlitchProps> = ({
@@ -18,6 +19,7 @@ const LetterGlitch: React.FC<LetterGlitchProps> = ({
   centerVignette = false,
   outerVignette = true,
   smooth = true,
+  numberColor = '#ffffff',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
@@ -102,10 +104,11 @@ const LetterGlitch: React.FC<LetterGlitchProps> = ({
     letters.current.forEach((letter, index) => {
       const x = (index % grid.current.columns) * charWidth;
       const y = Math.floor(index / grid.current.columns) * charHeight;
-      ctx.fillStyle = letter.color;
+      const isNumber = /[0-9]/.test(letter.char);
+      ctx.fillStyle = isNumber ? numberColor : letter.color;
       ctx.fillText(letter.char, x, y);
     });
-  }, []);
+  }, [numberColor]);
 
   const initializeLetters = useCallback((columns: number, rows: number) => {
     grid.current = { columns, rows };

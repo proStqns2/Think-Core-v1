@@ -106,47 +106,47 @@
 
   /* Cuda Mode Theme (Orange) */
   .cuda-mode {
-    --background: 25 20% 98%;
-    --foreground: 25 10% 23%;
-    --card: 25 20% 100%;
-    --card-foreground: 25 10% 23%;
-    --popover: 25 20% 100%;
-    --popover-foreground: 25 10% 23%;
-    --primary: 30 95% 55%;
+    --background: 25 30% 97%;
+    --foreground: 25 10% 15%;
+    --card: 25 30% 100%;
+    --card-foreground: 25 10% 15%;
+    --popover: 25 30% 100%;
+    --popover-foreground: 25 10% 15%;
+    --primary: 30 90% 50%;
     --primary-foreground: 30 40% 9.8%;
-    --secondary: 25 40% 96.1%;
-    --secondary-foreground: 25 10% 23%;
-    --muted: 25 40% 96.1%;
-    --muted-foreground: 25 8.9% 46.1%;
-    --accent: 35 90% 60%;
+    --secondary: 25 40% 95%;
+    --secondary-foreground: 25 10% 15%;
+    --muted: 25 40% 95%;
+    --muted-foreground: 25 8% 45%;
+    --accent: 35 85% 55%;
     --accent-foreground: 25 40% 9.8%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 25 40% 98%;
-    --border: 25 40% 89.8%;
-    --input: 25 40% 89.8%;
-    --ring: 30 95% 55%;
+    --border: 25 30% 90%;
+    --input: 25 30% 90%;
+    --ring: 30 90% 50%;
   }
 
   .dark .cuda-mode {
-    --background: 20 20% 7%;
+    --background: 20 25% 6%;
     --foreground: 25 40% 98%;
-    --card: 20 20% 9%;
+    --card: 20 25% 8%;
     --card-foreground: 25 40% 98%;
-    --popover: 20 20% 7%;
+    --popover: 20 25% 6%;
     --popover-foreground: 25 40% 98%;
-    --primary: 30 95% 55%;
-    --primary-foreground: 30 40% 9.8%;
-    --secondary: 20 20% 17%;
+    --primary: 30 90% 50%;
+    --primary-foreground: 25 40% 9.8%;
+    --secondary: 20 20% 15%;
     --secondary-foreground: 25 40% 98%;
-    --muted: 20 20% 17%;
+    --muted: 20 20% 15%;
     --muted-foreground: 25 15% 65%;
-    --accent: 35 90% 60%;
+    --accent: 35 85% 55%;
     --accent-foreground: 25 40% 9.8%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 25 40% 98%;
-    --border: 20 20% 20%;
-    --input: 20 20% 20%;
-    --ring: 30 95% 55%;
+    --border: 25 15% 20%;
+    --input: 25 15% 20%;
+    --ring: 30 90% 50%;
   }
 
   /* Imagera Mode Theme (Violet) */
