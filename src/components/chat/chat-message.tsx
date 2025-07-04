@@ -3,12 +3,10 @@
 import { cn } from '@/lib/utils';
 import type { Message } from '@/lib/types';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { BrainCircuit, User, Copy } from 'lucide-react';
-import { Skeleton } from '../ui/skeleton';
+import { BrainCircuit, User, Copy, Loader2 } from 'lucide-react';
 import { Logo } from '../ui/logo';
 import { Button } from '../ui/button';
 import { useToast } from '@/hooks/use-toast';
-import Orb from '../orb';
 
 interface ChatMessageProps {
   message?: Message;
@@ -31,13 +29,14 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
   if (isLoading) {
     return (
       <div className="flex items-start gap-4">
-        <Avatar className="h-9 w-9 border bg-black overflow-hidden">
-          <Orb forceHoverState={true} hue={210} />
+        <Avatar className="h-9 w-9 border bg-background shadow-sm">
+          <AvatarFallback>
+            <Logo className="h-5 w-5 animate-pulse text-primary" />
+          </AvatarFallback>
         </Avatar>
-        <div className="flex flex-col gap-2 pt-1">
-          <p className="text-sm text-muted-foreground animate-pulse">
-            EloquentAI is thinking...
-          </p>
+        <div className="flex items-center gap-2 rounded-lg border bg-card p-3">
+          <Loader2 className="h-5 w-5 animate-spin" />
+          <span className="text-sm text-muted-foreground">Thinking...</span>
         </div>
       </div>
     );
