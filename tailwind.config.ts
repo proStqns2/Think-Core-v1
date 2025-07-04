@@ -91,12 +91,18 @@ export default {
         'grid-pan': {
           '0%': { backgroundPosition: '0% 0%' },
           '100%': { backgroundPosition: '100px 100px' },
+        },
+        'background-pan': {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'grid-pan': 'grid-pan 60s linear infinite',
+        'background-pan': 'background-pan 30s ease-in-out infinite',
       },
     },
   },
