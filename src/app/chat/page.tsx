@@ -10,7 +10,7 @@ import type { Message } from '@/lib/types';
 import { ChatLayout } from '@/components/chat/chat-layout';
 import { nanoid } from 'nanoid';
 import NeuralNetworkAnimation from '@/components/neural-network-animation';
-import DigitalRain from '@/components/digital-rain';
+import PulsingGridAnimation from '@/components/pulsing-grid-animation';
 import { Skeleton } from '@/components/ui/skeleton';
 
 function ChatPageContent() {
@@ -26,13 +26,11 @@ function ChatPageContent() {
   React.useEffect(() => {
     if (mode === 'advanced') {
       document.body.classList.add('advanced-mode');
-      document.body.classList.remove('landing-page-active');
     } else {
       document.body.classList.remove('advanced-mode');
-      document.body.classList.add('landing-page-active');
     }
     return () => {
-      document.body.classList.remove('advanced-mode', 'landing-page-active');
+      document.body.classList.remove('advanced-mode');
     };
   }, [mode]);
 
@@ -145,7 +143,7 @@ function ChatPageContent() {
   return (
     <>
       <div className="absolute inset-0 z-0">
-        {mode === 'advanced' ? <NeuralNetworkAnimation /> : <DigitalRain />}
+        {mode === 'advanced' ? <NeuralNetworkAnimation /> : <PulsingGridAnimation />}
       </div>
       <main className="relative z-10 flex h-screen flex-col bg-transparent">
         <ChatLayout
