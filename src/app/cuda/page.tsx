@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { CudaLogo } from '@/components/ui/cuda-logo';
-import LetterGlitch from '@/components/letter-glitch';
 import { ArrowRight, Bot, User, Copy, Loader2, Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -14,6 +13,7 @@ import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
+import CodeNetworkAnimation from '@/components/code-network-animation';
 
 type CudaMessage = {
   id: string;
@@ -83,14 +83,7 @@ export default function CudaPage() {
 
   return (
     <div className="relative h-screen">
-      <LetterGlitch
-        glitchColors={['#ff8c00', '#e67300', '#ffa500']}
-        numberColor="#86efac"
-        glitchSpeed={50}
-        centerVignette={false}
-        outerVignette={true}
-        smooth={true}
-      />
+      <CodeNetworkAnimation />
       <div className="relative z-10 flex h-screen flex-col bg-transparent">
         <header className="flex h-14 shrink-0 items-center justify-between border-b border-orange-500/20 px-4">
           <Link href="/" className="flex items-center gap-2 font-semibold">
