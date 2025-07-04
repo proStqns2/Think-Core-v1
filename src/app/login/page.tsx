@@ -66,9 +66,6 @@ export default function LoginPage() {
               Sign Up
             </Link>
           </div>
-          <Link href="/" className="text-sm font-medium text-primary hover:underline">
-            or continue as a guest
-          </Link>
         </CardFooter>
       </Card>
     </div>
