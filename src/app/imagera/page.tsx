@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ImageraLogo } from '@/components/ui/imagera-logo';
 import RetrowaveGridAnimation from '@/components/retrowave-grid-animation';
@@ -11,7 +10,8 @@ import { useToast } from '@/hooks/use-toast';
 import { imageraImageResponse } from '@/ai/flows/imagera-image-response';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Sidebar } from '@/components/sidebar';
 
 export default function ImageraPage() {
   const [prompt, setPrompt] = React.useState('');
@@ -21,7 +21,7 @@ export default function ImageraPage() {
 
   React.useEffect(() => {
     document.body.classList.add('imagera-mode');
-    document.body.classList.remove('advanced-mode', 'cuda-mode');
+    document.body.classList.remove('advanced-mode', 'cuda-mode', 'collaboration-mode');
     return () => {
       document.body.classList.remove('imagera-mode');
     };
@@ -50,19 +50,21 @@ export default function ImageraPage() {
   };
   
   return (
-    <>
+    <div className="flex h-screen w-full bg-background">
       <RetrowaveGridAnimation className="absolute inset-0 z-0" />
-      <div className="relative z-10 flex min-h-screen flex-col items-center bg-background/80 p-4 backdrop-blur-sm sm:p-6 md:p-8">
-        <header className="flex w-full max-w-5xl items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 font-semibold">
-              <ImageraLogo className="h-8 w-8" />
-              <span className="text-lg">Imagera Image Generation</span>
-            </Link>
-        </header>
+      <Sidebar />
+      <div className="relative z-10 flex h-screen flex-1 flex-col items-center justify-center overflow-y-auto bg-background/50 p-4 backdrop-blur-sm sm:p-6 md:p-8 pl-16">
+        <div className="flex flex-col items-center text-center max-w-3xl w-full">
+            <ImageraLogo className="h-16 w-16 mb-4" />
+            <h1 className="text-4xl font-bold tracking-tight">Imagera</h1>
+            <p className="mt-2 text-lg text-muted-foreground">
+                Bring your imagination to life. Describe anything you want to see.
+            </p>
+        </div>
 
-        <main className="flex flex-1 flex-col items-center justify-center w-full max-w-5xl py-8">
-            <Card className="w-full shadow-2xl">
-                <CardContent className="p-6">
+        <main className="flex flex-1 flex-col items-center justify-center w-full max-w-3xl py-8">
+            <Card className="w-full shadow-2xl bg-card/80">
+                <CardContent className="p-4 sm:p-6">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:flex-row">
                         <Input
                         type="text"
@@ -84,9 +86,9 @@ export default function ImageraPage() {
                 </CardContent>
             </Card>
 
-            <div className="mt-8 w-full aspect-video max-w-3xl flex items-center justify-center rounded-lg border border-dashed bg-card/50 p-4">
+            <Card className="mt-8 w-full aspect-video max-w-3xl flex items-center justify-center rounded-lg bg-card/50 p-2 shadow-lg">
                 {isLoading ? (
-                    <Skeleton className="h-full w-full" />
+                    <Skeleton className="h-full w-full rounded-md" />
                 ) : generatedImage ? (
                     <div className="relative group w-full h-full">
                         <Image
@@ -101,20 +103,20 @@ export default function ImageraPage() {
                             download={`imagera-${prompt.slice(0, 20).replace(/\s/g, '_')}.png`}
                             className="absolute bottom-4 right-4"
                          >
-                            <Button variant="outline" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button variant="outline" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity bg-background/50 hover:bg-background/80">
                                 <Download className="h-5 w-5" />
                             </Button>
                          </a>
                     </div>
                 ) : (
-                    <div className="text-center text-muted-foreground">
+                    <div className="text-center text-muted-foreground p-4">
                         <ImageIcon className="mx-auto h-12 w-12" />
                         <p className="mt-4">Your generated image will appear here.</p>
                     </div>
                 )}
-            </div>
+            </Card>
         </main>
       </div>
-    </>
+    </div>
   );
 }
