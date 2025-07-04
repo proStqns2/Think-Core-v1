@@ -13,24 +13,28 @@ interface ChatMessagesProps {
 
 export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
+  const viewportRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTo({
-        top: scrollAreaRef.current.scrollHeight,
+    const viewport = viewportRef.current;
+    if (viewport) {
+      viewport.scrollTo({
+        top: viewport.scrollHeight,
         behavior: 'smooth',
       });
     }
   }, [messages, isLoading]);
 
   return (
-    <ScrollArea className="flex-1" ref={scrollAreaRef}>
-      <div className="p-4 md:p-6">
+    <ScrollArea className="flex-1" viewportRef={viewportRef}>
+      <div className="p-4 md:p-6 max-w-4xl mx-auto">
         {messages.length === 0 && !isLoading ? (
-          <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
-             <Logo className="w-16 h-16 mb-4 text-primary" />
+          <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground pt-20">
+            <Logo className="w-16 h-16 mb-4 text-primary" />
             <h2 className="text-2xl font-semibold">Welcome to EloquentAI</h2>
-            <p className="mt-2">Your intelligent AI chat assistant. Start a conversation below.</p>
+            <p className="mt-2">
+              Your intelligent AI chat assistant. Start a conversation below.
+            </p>
           </div>
         ) : (
           <div className="space-y-4">

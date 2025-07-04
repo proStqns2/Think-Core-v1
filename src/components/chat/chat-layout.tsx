@@ -3,7 +3,6 @@ import type { Message } from '@/lib/types';
 import { ChatHeader } from './chat-header';
 import { ChatMessages } from './chat-messages';
 import { ChatInput } from './chat-input';
-import { Card } from '@/components/ui/card';
 
 interface ChatLayoutProps {
   messages: Message[];
@@ -15,6 +14,7 @@ interface ChatLayoutProps {
   isLoading: boolean;
   onSummarize: () => void;
   onExport: () => void;
+  onNewChat: () => void;
 }
 
 export function ChatLayout({
@@ -27,12 +27,14 @@ export function ChatLayout({
   isLoading,
   onSummarize,
   onExport,
+  onNewChat,
 }: ChatLayoutProps) {
   return (
-    <Card className="flex flex-col w-full max-w-4xl h-full max-h-[90vh] shadow-2xl">
+    <div className="flex flex-col h-full w-full">
       <ChatHeader
         onSummarize={onSummarize}
         onExport={onExport}
+        onNewChat={onNewChat}
         mode={mode}
         onModeChange={onModeChange}
       />
@@ -43,6 +45,6 @@ export function ChatLayout({
         handleSendMessage={handleSendMessage}
         isLoading={isLoading}
       />
-    </Card>
+    </div>
   );
 }

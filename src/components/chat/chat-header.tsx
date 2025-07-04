@@ -6,6 +6,7 @@ import {
   ChevronDown,
   BrainCircuit,
   Star,
+  FilePlus,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -31,6 +32,7 @@ interface ChatHeaderProps {
   onModeChange: (mode: string) => void;
   onSummarize: () => void;
   onExport: () => void;
+  onNewChat: () => void;
 }
 
 export function ChatHeader({
@@ -38,9 +40,10 @@ export function ChatHeader({
   onModeChange,
   onSummarize,
   onExport,
+  onNewChat,
 }: ChatHeaderProps) {
   return (
-    <header className="flex items-center justify-between p-4 border-b">
+    <header className="flex items-center justify-between p-4 border-b bg-background/50 backdrop-blur-sm">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -102,6 +105,17 @@ export function ChatHeader({
         <Separator orientation="vertical" className="h-6 hidden md:block" />
         <div className="flex items-center gap-2">
           <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={onNewChat}>
+                  <FilePlus className="h-5 w-5" />
+                  <span className="sr-only">New Chat</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>New Chat</p>
+              </TooltipContent>
+            </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" onClick={onSummarize}>

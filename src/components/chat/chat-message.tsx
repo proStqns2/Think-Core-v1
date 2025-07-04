@@ -1,9 +1,13 @@
+'use client';
+
 import { cn } from '@/lib/utils';
 import type { Message } from '@/lib/types';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { BrainCircuit, User } from 'lucide-react';
+import { BrainCircuit, User, Copy } from 'lucide-react';
 import { Skeleton } from '../ui/skeleton';
 import { Logo } from '../ui/logo';
+import { Button } from '../ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 interface ChatMessageProps {
   message?: Message;
@@ -11,6 +15,18 @@ interface ChatMessageProps {
 }
 
 export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
+  const { toast } = useToast();
+
+  const handleCopy = (content: string) => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast({
+        title: 'Copied!',
+        description: 'The message has been copied to your clipboard.',
+      });
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-start gap-4">
@@ -32,16 +48,17 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
   const { role, content, createdAt } = message;
   const isUser = role === 'user';
   const isSystem = role === 'system';
+  const isAssistant = role === 'assistant';
 
   return (
     <div
       className={cn(
-        'flex items-start gap-4',
+        'group flex w-full items-start gap-4',
         isUser ? 'justify-end' : 'justify-start'
       )}
     >
       {!isUser && (
-        <Avatar className="h-9 w-9 border bg-background">
+        <Avatar className="h-9 w-9 border bg-background self-start">
           <AvatarFallback>
             {isSystem ? (
               <BrainCircuit className="h-5 w-5 text-accent" />
@@ -51,35 +68,56 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
           </AvatarFallback>
         </Avatar>
       )}
+
       <div
         className={cn(
-          'max-w-md rounded-lg p-3 shadow-md',
-          isUser
-            ? 'bg-primary text-primary-foreground'
-            : isSystem
-            ? 'bg-accent/20 border border-accent/50'
-            : 'bg-card border'
+          'flex items-end gap-1',
+          isUser ? 'flex-row-reverse' : 'flex-row'
         )}
       >
-        <p className="whitespace-pre-wrap text-sm">{content}</p>
-        {createdAt && (
-          <p
-            className={cn(
-              'mt-1 text-xs',
-              isUser
-                ? 'text-primary-foreground/70'
-                : 'text-muted-foreground/70'
-            )}
+        <div
+          className={cn(
+            'max-w-md rounded-lg p-3 shadow-md',
+            isUser
+              ? 'bg-primary text-primary-foreground'
+              : isSystem
+              ? 'bg-accent/20 border border-accent/50'
+              : 'bg-card border'
+          )}
+        >
+          <p className="whitespace-pre-wrap text-sm">{content}</p>
+          {createdAt && (
+            <p
+              className={cn(
+                'mt-1 text-xs',
+                isUser
+                  ? 'text-primary-foreground/70'
+                  : 'text-muted-foreground/70'
+              )}
+            >
+              {new Date(createdAt).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </p>
+          )}
+        </div>
+
+        {isAssistant && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={() => handleCopy(content)}
           >
-            {new Date(createdAt).toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
-          </p>
+            <Copy className="h-4 w-4" />
+            <span className="sr-only">Copy message</span>
+          </Button>
         )}
       </div>
+
       {isUser && (
-        <Avatar className="h-9 w-9 border bg-muted">
+        <Avatar className="h-9 w-9 border bg-muted self-start">
           <AvatarFallback>
             <User className="h-5 w-5 text-muted-foreground" />
           </AvatarFallback>

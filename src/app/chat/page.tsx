@@ -134,12 +134,20 @@ function ChatPageContent() {
     });
   };
 
+  const handleNewChat = () => {
+    setMessages([]);
+    toast({
+      title: 'New Chat Started',
+      description: 'The conversation has been cleared.',
+    });
+  };
+
   return (
     <>
       <div className="absolute inset-0 z-0">
         {mode === 'advanced' ? <NeuralNetworkAnimation /> : <DigitalRain />}
       </div>
-      <main className="relative z-10 flex h-screen flex-col items-center justify-center p-4 md:p-6 bg-transparent">
+      <main className="relative z-10 flex h-screen flex-col bg-transparent">
         <ChatLayout
           messages={messages}
           input={input}
@@ -147,6 +155,7 @@ function ChatPageContent() {
           handleSendMessage={handleSendMessage}
           isLoading={isLoading}
           onSummarize={handleSummarize}
+          onNewChat={handleNewChat}
           onExport={handleExport}
           mode={mode}
           onModeChange={setMode}
