@@ -16,6 +16,17 @@ export default function ChatPage() {
   const [mode, setMode] = React.useState('standard');
   const { toast } = useToast();
 
+  React.useEffect(() => {
+    if (mode === 'advanced') {
+      document.body.classList.add('advanced-mode');
+    } else {
+      document.body.classList.remove('advanced-mode');
+    }
+    return () => {
+      document.body.classList.remove('advanced-mode');
+    };
+  }, [mode]);
+
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
