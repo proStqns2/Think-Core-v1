@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { BrainCircuit, Github, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -19,7 +19,8 @@ import { Logo } from '@/components/ui/logo';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/chat', label: 'Standard Chat', icon: BrainCircuit, iconClassName: 'h-5 w-5', query: { mode: 'standard' } },
+  { href: '/chat', label: 'Standard Chat', icon: Logo, iconClassName: 'h-6 w-6', query: { mode: 'standard' } },
+  { href: '/chat', label: 'Advanced Chat', icon: BrainCircuit, iconClassName: 'h-5 w-5', query: { mode: 'advanced' } },
   { href: '/cuda', label: 'Cuda (Code)', icon: CudaLogo, iconClassName: 'h-7 w-7' },
   { href: '/imagera', label: 'Imagera (Image)', icon: ImageraLogo, iconClassName: 'h-6 w-6' },
   { href: '/collaborate', label: 'Collaborate', icon: Users, iconClassName: 'h-5 w-5' },
@@ -27,6 +28,7 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   
   return (
     <aside className="fixed inset-y-0 left-0 z-20 flex h-full w-16 flex-col border-r bg-sidebar text-sidebar-foreground">
@@ -50,10 +52,23 @@ export function Sidebar() {
       <nav className="flex flex-1 flex-col items-center gap-2 p-2">
         <TooltipProvider>
           {navItems.map((item) => {
-            const isActive = pathname.startsWith(item.href);
+            const currentMode = searchParams.get('mode');
+            let isActive: boolean;
+
+            if (item.href === '/chat') {
+              if (item.query?.mode === 'advanced') {
+                isActive = pathname === '/chat' && currentMode === 'advanced';
+              } else {
+                // Standard mode is default or when mode is 'standard'
+                isActive = pathname === '/chat' && currentMode !== 'advanced';
+              }
+            } else {
+              isActive = pathname.startsWith(item.href);
+            }
+            
             const Icon = item.icon;
             return (
-              <Tooltip key={item.href}>
+              <Tooltip key={item.label}>
                 <TooltipTrigger asChild>
                   <Link href={{ pathname: item.href, query: item.query }}>
                     <Button
