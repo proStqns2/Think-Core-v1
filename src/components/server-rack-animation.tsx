@@ -6,6 +6,8 @@ const ServerRackAnimation: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameId = useRef<number>();
 
+  const codeChars = '01<>{}/()=+-*&|;'.split('');
+
   const setupCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -15,13 +17,22 @@ const ServerRackAnimation: React.FC = () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const servers = Array.from({ length: Math.floor(canvas.width / 60) }, (_, i) => ({
-      x: i * 60 + 10,
-      lights: Array.from({ length: 10 }, () => ({
+    // --- Rain Setup ---
+    const fontSize = 14;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array.from({ length: columns }, () => ({
+      y: Math.random() * canvas.height,
+      char: codeChars[Math.floor(Math.random() * codeChars.length)]
+    }));
+
+    // --- Server Rack Setup ---
+    const servers = Array.from({ length: Math.floor(canvas.width / 50) }, (_, i) => ({
+      x: i * 50 + 10,
+      lights: Array.from({ length: 12 }, () => ({
         y: Math.random() * (canvas.height - 40) + 20,
         state: Math.random() > 0.5,
         blinkSpeed: Math.random() * 0.1 + 0.01,
-        color: `hsl(25, 100%, ${Math.random() * 20 + 40}%)`
+        color: `hsl(35, 100%, ${Math.random() * 30 + 50}%)`
       }))
     }));
 
@@ -31,14 +42,33 @@ const ServerRackAnimation: React.FC = () => {
 
     let frame = 0;
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // --- Draw Rain Layer ---
+      ctx.fillStyle = 'rgba(10, 5, 0, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = 'hsla(30, 80%, 30%, 0.5)';
+      ctx.font = `${fontSize}px monospace`;
 
+      drops.forEach((drop, i) => {
+        const x = i * fontSize;
+        ctx.fillText(drop.char, x, drop.y);
+        drop.y += fontSize;
+
+        if (drop.y > canvas.height && Math.random() > 0.95) {
+          drops[i].y = 0;
+          drops[i].char = codeChars[Math.floor(Math.random() * codeChars.length)];
+        }
+      });
+
+      // --- Draw Server Rack Layer ---
       servers.forEach(server => {
-        // Draw server rack
-        ctx.fillStyle = 'hsla(210, 10%, 15%, 0.8)';
-        ctx.fillRect(server.x, 0, 40, canvas.height);
+        ctx.fillStyle = 'hsla(25, 10%, 15%, 0.7)';
+        ctx.fillRect(server.x, 0, 30, canvas.height);
+        
+        ctx.strokeStyle = 'hsla(25, 10%, 5%, 0.7)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(server.x, 0, 30, canvas.height);
 
-        // Draw lights
         server.lights.forEach(light => {
           if (frame % Math.floor(1 / light.blinkSpeed) === 0) {
             light.state = !light.state;
@@ -46,9 +76,9 @@ const ServerRackAnimation: React.FC = () => {
           if (light.state) {
             ctx.fillStyle = light.color;
             ctx.shadowColor = light.color;
-            ctx.shadowBlur = 10;
+            ctx.shadowBlur = 8;
             ctx.beginPath();
-            ctx.arc(server.x + 20, light.y, 3, 0, Math.PI * 2);
+            ctx.arc(server.x + 15, light.y, 2, 0, Math.PI * 2);
             ctx.fill();
             ctx.shadowBlur = 0;
           }
@@ -60,7 +90,7 @@ const ServerRackAnimation: React.FC = () => {
     };
 
     draw();
-  }, []);
+  }, [codeChars]);
 
   useEffect(() => {
     const handleResize = () => setupCanvas();
@@ -75,7 +105,7 @@ const ServerRackAnimation: React.FC = () => {
     };
   }, [setupCanvas]);
 
-  return <canvas ref={canvasRef} style={{ display: 'block' }} />;
+  return <canvas ref={canvasRef} style={{ display: 'block', position: 'absolute', top: 0, left: 0, zIndex: 0, background: '#0a0500' }} />;
 };
 
 export default ServerRackAnimation;
