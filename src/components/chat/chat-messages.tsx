@@ -29,8 +29,8 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
         {messages.length === 0 && !isLoading ? (
           <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
              <Logo className="w-16 h-16 mb-4 text-primary" />
-            <h2 className="text-2xl font-semibold">Welcome to Think Code AI</h2>
-            <p className="mt-2">Your collaborative AI coding partner. Start a conversation below.</p>
+            <h2 className="text-2xl font-semibold">Welcome to EloquentAI</h2>
+            <p className="mt-2">Your intelligent AI chat assistant. Start a conversation below.</p>
           </div>
         ) : (
           <div className="space-y-4">

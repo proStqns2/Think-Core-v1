@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { initialAIChatResponse } from '@/ai/flows/initial-ai-chat-response';
+import { advancedAIChatResponse } from '@/ai/flows/advanced-ai-chat-response';
 import { summarizeChatHistory } from '@/ai/flows/summarize-chat-history';
 import { useToast } from '@/hooks/use-toast';
 import type { Message } from '@/lib/types';
@@ -12,6 +13,7 @@ export default function ChatPage() {
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [input, setInput] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
+  const [mode, setMode] = React.useState('standard');
   const { toast } = useToast();
 
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,7 +32,12 @@ export default function ChatPage() {
     setIsLoading(true);
 
     try {
-      const aiResponse = await initialAIChatResponse({ prompt: input });
+      const aiFlow =
+        mode === 'advanced'
+          ? advancedAIChatResponse
+          : initialAIChatResponse;
+      const aiResponse = await aiFlow({ prompt: input });
+
       const assistantMessage: Message = {
         id: nanoid(),
         role: 'assistant',
@@ -96,7 +103,7 @@ export default function ChatPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `think-code-ai-chat-${new Date().toISOString()}.txt`;
+    link.download = `eloquent-ai-chat-${new Date().toISOString()}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -117,6 +124,8 @@ export default function ChatPage() {
         isLoading={isLoading}
         onSummarize={handleSummarize}
         onExport={handleExport}
+        mode={mode}
+        onModeChange={setMode}
       />
     </main>
   );

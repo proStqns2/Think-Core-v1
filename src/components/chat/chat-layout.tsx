@@ -8,6 +8,8 @@ import { Card } from '@/components/ui/card';
 interface ChatLayoutProps {
   messages: Message[];
   input: string;
+  mode: string;
+  onModeChange: (mode: string) => void;
   handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
@@ -18,6 +20,8 @@ interface ChatLayoutProps {
 export function ChatLayout({
   messages,
   input,
+  mode,
+  onModeChange,
   handleInputChange,
   handleSendMessage,
   isLoading,
@@ -26,7 +30,12 @@ export function ChatLayout({
 }: ChatLayoutProps) {
   return (
     <Card className="flex flex-col w-full max-w-4xl h-full max-h-[90vh] shadow-2xl">
-      <ChatHeader onSummarize={onSummarize} onExport={onExport} />
+      <ChatHeader
+        onSummarize={onSummarize}
+        onExport={onExport}
+        mode={mode}
+        onModeChange={onModeChange}
+      />
       <ChatMessages messages={messages} isLoading={isLoading} />
       <ChatInput
         input={input}
