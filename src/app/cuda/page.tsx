@@ -1,10 +1,9 @@
-
 'use client';
 
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { CudaLogo } from '@/components/ui/cuda-logo';
-import { ArrowRight, Bot, User, Copy, Loader2, Sparkles } from 'lucide-react';
+import { ArrowRight, Bot, User, Copy, Loader2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { cudaCodeResponse } from '@/ai/flows/cuda-code-response';
@@ -12,8 +11,8 @@ import { nanoid } from 'nanoid';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import Link from 'next/link';
-import ServerRackAnimation from '@/components/server-rack-animation';
+import GridPatternBackground from '@/components/grid-pattern-background';
+import { Sidebar } from '@/components/sidebar';
 
 type CudaMessage = {
   id: string;
@@ -44,7 +43,7 @@ export default function CudaPage() {
         behavior: 'smooth',
       });
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -82,42 +81,36 @@ export default function CudaPage() {
   };
 
   return (
-    <div className="relative h-screen">
-      <ServerRackAnimation />
-      <div className="relative z-10 flex h-screen flex-col bg-transparent">
-        <header className="flex h-14 shrink-0 items-center justify-between border-b border-orange-500/20 px-4">
-          <Link href="/" className="flex items-center gap-2 font-semibold">
-            <CudaLogo className="h-8 w-8" />
-            <span className="text-lg">Cuda Code Generation</span>
-          </Link>
-        </header>
-
+    <div className="flex h-screen w-full bg-background">
+        <GridPatternBackground />
+        <Sidebar />
+      <div className="relative z-10 flex h-screen flex-1 flex-col pl-16">
         <main className="flex-1 overflow-hidden">
           <ScrollArea className="h-full" viewportRef={viewportRef}>
-            <div className="mx-auto max-w-4xl space-y-8 p-4 md:p-6">
+            <div className="mx-auto max-w-4xl space-y-8 p-4 md:p-6 lg:p-8">
               {messages.length === 0 && !isLoading ? (
-                <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-orange-500/30 p-12 text-center">
+                <div className="flex h-[calc(100vh-15rem)] flex-col items-center justify-center rounded-lg p-12 text-center">
                   <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                    <Sparkles className="h-8 w-8 text-primary" />
+                    <CudaLogo className="h-10 w-10 text-primary" />
                   </div>
-                  <h2 className="text-2xl font-semibold">Welcome to Cuda</h2>
-                  <p className="mt-2 text-muted-foreground">
-                    Ask for any code snippet, function, or component you need.
+                  <h2 className="text-3xl font-semibold tracking-tight">Cuda Code Generation</h2>
+                  <p className="mt-2 text-lg text-muted-foreground">
+                    Generate code snippets powered by Manim & NVIDIA samples.
                   </p>
                 </div>
               ) : (
                 messages.map((message) => (
-                  <div key={message.id} className={cn('group flex items-start gap-4', message.role === 'user' && 'justify-end')}>
+                  <div key={message.id} className={cn('group flex w-full items-start gap-4', message.role === 'user' && 'justify-end')}>
                     {message.role === 'assistant' && (
-                      <Avatar className="h-9 w-9 border bg-background">
+                      <Avatar className="h-9 w-9 border bg-background shadow-sm">
                         <AvatarFallback>
-                          <Bot className="h-5 w-5 text-primary" />
+                          <CudaLogo className="h-6 w-6" />
                         </AvatarFallback>
                       </Avatar>
                     )}
-                    <div className={cn('max-w-2xl rounded-lg', message.role === 'user' ? 'bg-primary p-3 text-primary-foreground' : 'bg-card')}>
+                    <div className={cn('max-w-2xl rounded-lg', message.role === 'user' ? 'bg-primary p-3 text-primary-foreground' : 'border bg-card/80 backdrop-blur-sm')}>
                       {message.role === 'user' ? (
-                        <p className="whitespace-pre-wrap">{message.content}</p>
+                        <p className="whitespace-pre-wrap p-1">{message.content}</p>
                       ) : (
                         <div className="relative">
                            <Button
@@ -129,13 +122,13 @@ export default function CudaPage() {
                             <Copy className="h-4 w-4" />
                           </Button>
                           <pre className="overflow-x-auto rounded-md bg-black/80 p-4 font-code text-sm text-green-300">
-                            <code>{message.content.replace(/```.*\n/g, '').replace(/```/g, '')}</code>
+                            <code>{message.content.replace(/```.*\n|```/g, '')}</code>
                           </pre>
                         </div>
                       )}
                     </div>
                     {message.role === 'user' && (
-                       <Avatar className="h-9 w-9 border bg-muted">
+                       <Avatar className="h-9 w-9 border bg-muted shadow-sm">
                         <AvatarFallback>
                           <User className="h-5 w-5 text-muted-foreground" />
                         </AvatarFallback>
@@ -146,13 +139,14 @@ export default function CudaPage() {
               )}
                {isLoading && (
                 <div className="flex items-start gap-4">
-                  <Avatar className="h-9 w-9 border bg-background">
-                    <AvatarFallback>
-                      <Bot className="h-5 w-5 text-primary" />
+                  <Avatar className="h-9 w-9 border bg-background shadow-sm">
+                     <AvatarFallback>
+                        <CudaLogo className="h-6 w-6 animate-pulse" />
                     </AvatarFallback>
                   </Avatar>
-                  <div className="rounded-lg bg-card p-3">
+                  <div className="flex items-center gap-2 rounded-lg border bg-card/80 p-3">
                     <Loader2 className="h-5 w-5 animate-spin" />
+                    <span className="text-sm text-muted-foreground">Generating...</span>
                   </div>
                 </div>
               )}
@@ -160,14 +154,14 @@ export default function CudaPage() {
           </ScrollArea>
         </main>
 
-        <footer className="shrink-0 border-t border-orange-500/20 bg-transparent p-4">
+        <footer className="shrink-0 bg-transparent p-4">
           <form onSubmit={handleSubmit} className="mx-auto max-w-4xl">
-            <div className="relative">
+            <div className="relative rounded-lg border bg-card/80 p-2 shadow-lg backdrop-blur-sm focus-within:ring-2 focus-within:ring-primary/80">
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="e.g., 'Write a React hook to fetch data from an API'"
-                className="resize-none rounded-lg pr-12 min-h-[48px] bg-background/80"
+                className="resize-none border-0 bg-transparent pr-12 shadow-none focus-visible:ring-0"
                 rows={1}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
@@ -176,7 +170,7 @@ export default function CudaPage() {
                   }
                 }}
               />
-              <Button type="submit" size="icon" className="absolute bottom-2 right-2 h-8 w-8" disabled={isLoading || !input.trim()}>
+              <Button type="submit" size="icon" className="absolute bottom-3 right-3 h-8 w-8" disabled={isLoading || !input.trim()}>
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </div>

@@ -12,8 +12,7 @@ const GridPatternBackground: React.FC = () => {
     const gridSize = 40;
 
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+    ctx.fillStyle = 'hsla(var(--primary-foreground) / 0.05)';
     
     // Draw grid points
     for (let x = 0; x <= width; x += gridSize) {
@@ -56,9 +55,9 @@ const GridPatternBackground: React.FC = () => {
   }, [draw]);
 
   return (
-    <div className="absolute inset-0 z-0">
+    <div className="absolute inset-0 z-0 bg-background">
       <canvas ref={canvasRef} className="h-full w-full" />
-       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
     </div>
   );
 };

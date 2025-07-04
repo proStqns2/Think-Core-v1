@@ -104,49 +104,47 @@
     --ring: 210 90% 55%;
   }
 
-  /* Cuda Mode Theme (Orange) */
+  /* Cuda Mode Theme (Manus AI Inspired - Orange) */
   .cuda-mode {
-    --background: 25 30% 97%;
+    --background: 20 15% 92%;
     --foreground: 25 10% 15%;
-    --card: 25 30% 100%;
+    --card: 20 15% 98%;
     --card-foreground: 25 10% 15%;
-    --popover: 25 30% 100%;
+    --popover: 20 15% 98%;
     --popover-foreground: 25 10% 15%;
     --primary: 30 90% 50%;
     --primary-foreground: 30 40% 9.8%;
-    --secondary: 25 40% 95%;
+    --secondary: 20 15% 88%;
     --secondary-foreground: 25 10% 15%;
-    --muted: 25 40% 95%;
+    --muted: 20 15% 88%;
     --muted-foreground: 25 8% 45%;
     --accent: 35 85% 55%;
     --accent-foreground: 25 40% 9.8%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 25 40% 98%;
-    --border: 25 30% 90%;
-    --input: 25 30% 90%;
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 20 15% 80%;
+    --input: 20 15% 80%;
     --ring: 30 90% 50%;
   }
 
   .dark .cuda-mode {
-    --background: 20 25% 6%;
-    --foreground: 25 40% 98%;
-    --card: 20 25% 8%;
-    --card-foreground: 25 40% 98%;
-    --popover: 20 25% 6%;
-    --popover-foreground: 25 40% 98%;
-    --primary: 30 90% 50%;
-    --primary-foreground: 25 40% 9.8%;
-    --secondary: 20 20% 15%;
-    --secondary-foreground: 25 40% 98%;
-    --muted: 20 20% 15%;
-    --muted-foreground: 25 15% 65%;
-    --accent: 35 85% 55%;
-    --accent-foreground: 25 40% 9.8%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 25 40% 98%;
-    --border: 25 15% 20%;
-    --input: 25 15% 20%;
-    --ring: 30 90% 50%;
+    --background: 20 15% 4%;
+    --foreground: 25 10% 92%;
+    --card: 20 15% 8%;
+    --card-foreground: 25 10% 92%;
+    --popover: 20 15% 4%;
+    --popover-foreground: 25 10% 92%;
+    --primary: 30 95% 55%;
+    --primary-foreground: 30 40% 12%;
+    --secondary: 20 15% 12%;
+    --secondary-foreground: 25 10% 92%;
+    --muted: 20 15% 12%;
+    --muted-foreground: 25 10% 60%;
+    --accent: 35 90% 60%;
+    --accent-foreground: 25 40% 12%;
+    --border: 20 15% 15%;
+    --input: 20 15% 15%;
+    --ring: 30 95% 55%;
   }
 
   /* Imagera Mode Theme (Violet) */
@@ -192,6 +190,25 @@
     --border: 270 20% 20%;
     --input: 270 20% 20%;
     --ring: 270 90% 65%;
+  }
+
+  /* Sidebar Theme */
+  :root, .dark, .imagera-mode, .advanced-mode {
+    --sidebar-background: 220 20% 10%;
+    --sidebar-foreground: 210 40% 90%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-accent: 210 90% 55%;
+    --sidebar-accent-foreground: 210 40% 9.8%;
+    --sidebar-ring: 210 90% 55%;
+  }
+
+  .cuda-mode {
+    --sidebar-background: 20 15% 10%;
+    --sidebar-foreground: 25 10% 90%;
+    --sidebar-border: 20 15% 20%;
+    --sidebar-accent: 30 90% 50%;
+    --sidebar-accent-foreground: 30 40% 9.8%;
+    --sidebar-ring: 30 90% 50%;
   }
 }
 
