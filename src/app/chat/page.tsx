@@ -34,14 +34,13 @@ function ChatPageContent() {
     };
   }, [mode]);
 
-  const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const submitMessage = async (messageContent: string) => {
+    if (!messageContent.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: nanoid(),
       role: 'user',
-      content: input,
+      content: messageContent,
       createdAt: new Date(),
     };
 
@@ -54,7 +53,7 @@ function ChatPageContent() {
         mode === 'advanced'
           ? advancedAIChatResponse
           : initialAIChatResponse;
-      const aiResponse = await aiFlow({ prompt: input });
+      const aiResponse = await aiFlow({ prompt: messageContent });
 
       const assistantMessage: Message = {
         id: nanoid(),
@@ -75,6 +74,30 @@ function ChatPageContent() {
       setIsLoading(false);
     }
   };
+
+  const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await submitMessage(input);
+  };
+  
+  const handleSuggestionClick = async (prompt: string) => {
+    await submitMessage(prompt);
+  };
+  
+  const handleAttach = () => {
+    toast({
+      title: 'Feature not implemented',
+      description: 'File uploads are not yet available.',
+    });
+  };
+
+  const handleMic = () => {
+    toast({
+      title: 'Feature not implemented',
+      description: 'Voice input is not yet available.',
+    });
+  };
+
 
   const handleSummarize = async () => {
     if (messages.length === 0 || isLoading) return;
@@ -157,6 +180,9 @@ function ChatPageContent() {
           onExport={handleExport}
           mode={mode}
           onModeChange={setMode}
+          onSuggestionClick={handleSuggestionClick}
+          onAttach={handleAttach}
+          onMic={handleMic}
         />
       </main>
     </>

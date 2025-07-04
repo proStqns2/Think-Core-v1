@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Send } from 'lucide-react';
+import { Send, Paperclip, Mic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -10,6 +10,8 @@ interface ChatInputProps {
   handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
+  onAttach: () => void;
+  onMic: () => void;
 }
 
 export function ChatInput({
@@ -17,13 +19,23 @@ export function ChatInput({
   handleInputChange,
   handleSendMessage,
   isLoading,
+  onAttach,
+  onMic,
 }: ChatInputProps) {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
   React.useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      const maxHeight = 192; // 12rem
+      textareaRef.current.style.height = 'auto'; // Reset height
+      const scrollHeight = textareaRef.current.scrollHeight;
+      if (scrollHeight > maxHeight) {
+        textareaRef.current.style.height = `${maxHeight}px`;
+        textareaRef.current.style.overflowY = 'auto';
+      } else {
+        textareaRef.current.style.height = `${scrollHeight}px`;
+        textareaRef.current.style.overflowY = 'hidden';
+      }
     }
   }, [input]);
 
@@ -36,30 +48,41 @@ export function ChatInput({
   };
 
   return (
-    <div className="p-4 border-t bg-background/80 backdrop-blur-sm">
+    <div className="p-4 bg-transparent">
       <form
         onSubmit={handleSendMessage}
-        className="flex items-end gap-3 max-w-4xl mx-auto"
+        className="max-w-4xl mx-auto"
       >
-        <Textarea
-          ref={textareaRef}
-          value={input}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Type your message..."
-          className="flex-1 resize-none max-h-48 overflow-y-auto"
-          rows={1}
-          disabled={isLoading}
-          aria-label="Chat input"
-        />
-        <Button
-          type="submit"
-          size="icon"
-          disabled={isLoading || !input.trim()}
-          aria-label="Send message"
-        >
-          <Send className="h-5 w-5" />
-        </Button>
+        <div className="flex flex-col rounded-2xl border bg-background/70 p-2 shadow-lg backdrop-blur-sm">
+          <Textarea
+            ref={textareaRef}
+            value={input}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            placeholder="Assign a task or ask anything"
+            className="flex-1 resize-none border-0 bg-transparent px-2 pt-2 shadow-none focus-visible:ring-0"
+            rows={1}
+            disabled={isLoading}
+            aria-label="Chat input"
+          />
+          <div className="flex items-center justify-between mt-2">
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" size="icon" type="button" onClick={onAttach} className="text-muted-foreground">
+                <Paperclip className="h-5 w-5" />
+                <span className="sr-only">Attach file</span>
+              </Button>
+            </div>
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" size="icon" type="button" onClick={onMic} className="text-muted-foreground">
+                <Mic className="h-5 w-5" />
+                <span className="sr-only">Use microphone</span>
+              </Button>
+              <Button type="submit" size="icon" disabled={isLoading || !input.trim()} aria-label="Send message">
+                <Send className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
   );

@@ -4,7 +4,6 @@ import * as React from 'react';
 import type { Message } from '@/lib/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatMessage } from './chat-message';
-import { Logo } from '../ui/logo';
 
 interface ChatMessagesProps {
   messages: Message[];
@@ -26,15 +25,16 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
   }, [messages, isLoading]);
 
   return (
-    <ScrollArea className="flex-1" viewportRef={viewportRef}>
+    <ScrollArea className="flex-1 w-full" viewportRef={viewportRef}>
       <div className="p-4 md:p-6 max-w-4xl mx-auto">
         {messages.length === 0 && !isLoading ? (
-          <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground pt-20">
-            <Logo className="w-16 h-16 mb-4 text-primary" />
-            <h2 className="text-2xl font-semibold">Welcome to EloquentAI</h2>
-            <p className="mt-2">
-              Your intelligent AI chat assistant. Start a conversation below.
-            </p>
+          <div className="flex flex-col items-center justify-center h-full text-center py-20">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground/90 tracking-tight">
+              Hello!
+            </h1>
+            <h2 className="mt-2 text-2xl md:text-3xl text-muted-foreground">
+              What can I do for you?
+            </h2>
           </div>
         ) : (
           <div className="space-y-4">

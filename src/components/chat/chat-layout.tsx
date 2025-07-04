@@ -3,6 +3,7 @@ import type { Message } from '@/lib/types';
 import { ChatHeader } from './chat-header';
 import { ChatMessages } from './chat-messages';
 import { ChatInput } from './chat-input';
+import { SuggestionChips } from './suggestion-chips';
 
 interface ChatLayoutProps {
   messages: Message[];
@@ -15,6 +16,9 @@ interface ChatLayoutProps {
   onSummarize: () => void;
   onExport: () => void;
   onNewChat: () => void;
+  onSuggestionClick: (prompt: string) => void;
+  onAttach: () => void;
+  onMic: () => void;
 }
 
 export function ChatLayout({
@@ -28,6 +32,9 @@ export function ChatLayout({
   onSummarize,
   onExport,
   onNewChat,
+  onSuggestionClick,
+  onAttach,
+  onMic,
 }: ChatLayoutProps) {
   return (
     <div className="flex flex-col h-full w-full">
@@ -39,12 +46,19 @@ export function ChatLayout({
         onModeChange={onModeChange}
       />
       <ChatMessages messages={messages} isLoading={isLoading} />
-      <ChatInput
-        input={input}
-        handleInputChange={handleInputChange}
-        handleSendMessage={handleSendMessage}
-        isLoading={isLoading}
-      />
+      <div className="mt-auto w-full">
+        {messages.length === 0 && !isLoading && (
+          <SuggestionChips onSuggestionClick={onSuggestionClick} />
+        )}
+        <ChatInput
+          input={input}
+          handleInputChange={handleInputChange}
+          handleSendMessage={handleSendMessage}
+          isLoading={isLoading}
+          onAttach={onAttach}
+          onMic={onMic}
+        />
+      </div>
     </div>
   );
 }
