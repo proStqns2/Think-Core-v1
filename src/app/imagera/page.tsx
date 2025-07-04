@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ImageraLogo } from '@/components/ui/imagera-logo';
-import InternetAnimation from '@/components/internet-animation';
+import ParticlesAnimation from '@/components/particles-animation';
 import { Download, ImageIcon, Loader2, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
@@ -48,11 +48,20 @@ export default function ImageraPage() {
       setIsLoading(false);
     }
   };
+  
+  const imageraColors = ['#a855f7', '#d8b4fe', '#f3e8ff', '#7e22ce'];
 
   return (
     <>
       <div className="absolute inset-0 z-0 bg-background">
-        <InternetAnimation />
+        <ParticlesAnimation
+          particleColors={imageraColors}
+          particleCount={500}
+          particleBaseSize={150}
+          alphaParticles={true}
+          moveParticlesOnHover={true}
+          particleHoverFactor={0.5}
+        />
       </div>
       <div className="relative z-10 flex min-h-screen flex-col items-center bg-background/80 p-4 backdrop-blur-sm sm:p-6 md:p-8">
         <header className="flex w-full max-w-5xl items-center justify-between">
