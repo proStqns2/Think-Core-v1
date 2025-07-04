@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { CudaLogo } from '@/components/ui/cuda-logo';
-import NetworkGlobeAnimation from '@/components/network-globe-animation';
+import LetterGlitch from '@/components/letter-glitch';
 import { ArrowRight, Bot, User, Copy, Loader2, Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -81,12 +81,16 @@ export default function CudaPage() {
   };
 
   return (
-    <>
-      <div className="absolute inset-0 z-0 bg-background">
-        <NetworkGlobeAnimation />
-      </div>
-      <div className="relative z-10 flex h-screen flex-col bg-background/80 backdrop-blur-sm">
-        <header className="flex h-14 shrink-0 items-center justify-between border-b px-4">
+    <div className="relative h-screen">
+      <LetterGlitch
+        glitchColors={['#ff8c00', '#e67300', '#ffa500']}
+        glitchSpeed={50}
+        centerVignette={false}
+        outerVignette={true}
+        smooth={true}
+      />
+      <div className="relative z-10 flex h-screen flex-col bg-transparent">
+        <header className="flex h-14 shrink-0 items-center justify-between border-b border-orange-500/20 px-4">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <CudaLogo className="h-8 w-8" />
             <span className="text-lg">Cuda Code Generation</span>
@@ -97,7 +101,7 @@ export default function CudaPage() {
           <ScrollArea className="h-full" ref={scrollAreaRef}>
             <div className="mx-auto max-w-4xl space-y-8 p-4 md:p-6">
               {messages.length === 0 && !isLoading ? (
-                <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
+                <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-orange-500/30 p-12 text-center">
                   <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
                     <Sparkles className="h-8 w-8 text-primary" />
                   </div>
@@ -161,14 +165,14 @@ export default function CudaPage() {
           </ScrollArea>
         </main>
 
-        <footer className="shrink-0 border-t bg-background/80 p-4">
+        <footer className="shrink-0 border-t border-orange-500/20 bg-transparent p-4">
           <form onSubmit={handleSubmit} className="mx-auto max-w-4xl">
             <div className="relative">
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="e.g., 'Write a React hook to fetch data from an API'"
-                className="resize-none rounded-lg pr-12 min-h-[48px]"
+                className="resize-none rounded-lg pr-12 min-h-[48px] bg-background/80"
                 rows={1}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
@@ -184,6 +188,6 @@ export default function CudaPage() {
           </form>
         </footer>
       </div>
-    </>
+    </div>
   );
 }
