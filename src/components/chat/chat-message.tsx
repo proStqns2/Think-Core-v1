@@ -45,7 +45,7 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
 
   if (!message) return null;
 
-  const { role, content, createdAt } = message;
+  const { role, content, createdAt, status } = message;
   const isUser = role === 'user';
   const isSystem = role === 'system';
   const isAssistant = role === 'assistant';
@@ -86,21 +86,32 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
           )}
         >
           <p className="whitespace-pre-wrap text-sm">{content}</p>
-          {createdAt && (
-            <p
-              className={cn(
-                'mt-1 text-xs',
-                isUser
-                  ? 'text-primary-foreground/70'
-                  : 'text-muted-foreground/70'
-              )}
-            >
-              {new Date(createdAt).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </p>
-          )}
+          <div className="mt-1 flex items-center justify-end gap-2">
+            {isAssistant && status && (
+              <div
+                className={cn('h-2 w-2 rounded-full', {
+                  'bg-green-500': status === 'ok',
+                  'bg-red-500': status === 'error',
+                })}
+                title={status === 'ok' ? 'Success' : 'Error'}
+              />
+            )}
+            {createdAt && (
+              <p
+                className={cn(
+                  'text-xs',
+                  isUser
+                    ? 'text-primary-foreground/70'
+                    : 'text-muted-foreground/70'
+                )}
+              >
+                {new Date(createdAt).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </p>
+            )}
+          </div>
         </div>
 
         {isAssistant && (

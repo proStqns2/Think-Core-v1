@@ -60,16 +60,26 @@ function ChatPageContent() {
         role: 'assistant',
         content: aiResponse.response,
         createdAt: new Date(),
+        status: 'ok',
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error('Error getting AI response:', error);
+      const errorMessage: Message = {
+        id: nanoid(),
+        role: 'assistant',
+        content:
+          'Sorry, I encountered an error. Please try again.',
+        createdAt: new Date(),
+        status: 'error',
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+
       toast({
         title: 'Error',
         description: 'Failed to get a response from the AI. Please try again.',
         variant: 'destructive',
       });
-      setMessages((prev) => prev.slice(0, -1));
     } finally {
       setIsLoading(false);
     }

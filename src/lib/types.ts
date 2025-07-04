@@ -3,4 +3,5 @@ export type Message = {
   role: 'user' | 'assistant' | 'system';
   content: string;
   createdAt?: Date;
+  status?: 'ok' | 'error';
 };
