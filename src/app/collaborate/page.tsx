@@ -29,6 +29,7 @@ export default function CollaboratePage() {
   const [isLoading, setIsLoading] = React.useState(false);
   const { toast } = useToast();
   const viewportRef = React.useRef<HTMLDivElement>(null);
+  const [connectedServices, setConnectedServices] = React.useState<Record<string, boolean>>({});
 
   React.useEffect(() => {
     document.body.classList.add('collaboration-mode');
@@ -43,9 +44,11 @@ export default function CollaboratePage() {
   }, [messages, isLoading]);
   
   const handleConnect = (service: string) => {
+    const isConnected = !!connectedServices[service];
+    setConnectedServices(prev => ({ ...prev, [service]: !isConnected }));
     toast({
-      title: 'Feature not implemented',
-      description: `${service} connection is not yet available.`,
+      title: isConnected ? `${service} Disconnected` : `${service} Connected`,
+      description: `You have ${isConnected ? 'disconnected from' : 'connected to'} ${service}. (Simulated)`,
     });
   };
 
@@ -98,7 +101,7 @@ export default function CollaboratePage() {
                     </div>
                     <h2 className="text-3xl font-semibold tracking-tight">Team Collaboration Space</h2>
                     <p className="mt-2 text-lg text-muted-foreground">
-                      Chat with your team and connect to your favorite dev tools.
+                      Connect your developer tools and start collaborating with your team.
                     </p>
                   </div>
                 ) : (
@@ -140,7 +143,7 @@ export default function CollaboratePage() {
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask your collaboration assistant..."
+                  placeholder="Ask about a GitHub user, e.g., 'Get details for proStqns2'"
                   className="resize-none border-0 bg-transparent pr-12 shadow-none focus-visible:ring-0"
                   rows={1}
                   onKeyDown={(e) => {
@@ -161,31 +164,37 @@ export default function CollaboratePage() {
             <h2 className="text-lg font-semibold tracking-tight">Connect Services</h2>
           </header>
           <div className="space-y-6 p-6">
-            <Card className="bg-card/80">
+            <Card className={cn('bg-card/80 transition-all', connectedServices['GitHub'] && 'border-primary')}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2"><Github /> GitHub</CardTitle>
                 <CardDescription>Connect your repositories for seamless integration.</CardDescription>
               </CardHeader>
               <CardFooter>
-                <Button className="w-full" onClick={() => handleConnect('GitHub')}>Connect</Button>
+                <Button className="w-full" onClick={() => handleConnect('GitHub')} variant={connectedServices['GitHub'] ? 'secondary' : 'default'}>
+                  {connectedServices['GitHub'] ? 'Disconnect' : 'Connect'}
+                </Button>
               </CardFooter>
             </Card>
-            <Card className="bg-card/80">
+            <Card className={cn('bg-card/80 transition-all', connectedServices['GitLab'] && 'border-primary')}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2"><Gitlab /> GitLab</CardTitle>
                 <CardDescription>Link your projects and pipelines.</CardDescription>
               </CardHeader>
                <CardFooter>
-                <Button className="w-full" onClick={() => handleConnect('GitLab')}>Connect</Button>
+                <Button className="w-full" onClick={() => handleConnect('GitLab')} variant={connectedServices['GitLab'] ? 'secondary' : 'default'}>
+                  {connectedServices['GitLab'] ? 'Disconnect' : 'Connect'}
+                </Button>
               </CardFooter>
             </Card>
-            <Card className="bg-card/80">
+            <Card className={cn('bg-card/80 transition-all', connectedServices['Azure DevOps'] && 'border-primary')}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2"><AzureDevopsLogo className="h-5 w-5" /> Azure DevOps</CardTitle>
                 <CardDescription>Integrate your boards and repos from Azure.</CardDescription>
               </CardHeader>
                <CardFooter>
-                <Button className="w-full" onClick={() => handleConnect('Azure DevOps')}>Connect</Button>
+                <Button className="w-full" onClick={() => handleConnect('Azure DevOps')} variant={connectedServices['Azure DevOps'] ? 'secondary' : 'default'}>
+                  {connectedServices['Azure DevOps'] ? 'Disconnect' : 'Connect'}
+                </Button>
               </CardFooter>
             </Card>
           </div>
