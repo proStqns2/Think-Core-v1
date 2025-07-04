@@ -20,7 +20,7 @@ function ChatPageContent() {
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [input, setInput] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
-  const [mode, setMode] = React.useState(initialMode);
+  const [mode] = React.useState(initialMode);
   const { toast } = useToast();
 
   React.useEffect(() => {
@@ -196,7 +196,6 @@ function ChatPageContent() {
           onNewChat={handleNewChat}
           onExport={handleExport}
           mode={mode}
-          onModeChange={setMode}
           onSuggestionClick={handleSuggestionClick}
           onAttach={handleAttach}
           onMic={handleMic}

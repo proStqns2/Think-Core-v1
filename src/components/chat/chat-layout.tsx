@@ -9,9 +9,8 @@ interface ChatLayoutProps {
   messages: Message[];
   input: string;
   mode: string;
-  onModeChange: (mode: string) => void;
   handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  handleSendMessage: (e: React.FormEvent<HTMLFormFormElement>) => void;
+  handleSendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
   onSummarize: () => void;
   onExport: () => void;
@@ -26,7 +25,6 @@ export function ChatLayout({
   messages,
   input,
   mode,
-  onModeChange,
   handleInputChange,
   handleSendMessage,
   isLoading,
@@ -45,7 +43,6 @@ export function ChatLayout({
         onExport={onExport}
         onNewChat={onNewChat}
         mode={mode}
-        onModeChange={onModeChange}
       />
       <ChatMessages messages={messages} isLoading={isLoading} />
       <div className="mt-auto w-full">
