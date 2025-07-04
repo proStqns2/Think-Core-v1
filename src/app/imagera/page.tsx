@@ -53,18 +53,23 @@ export default function ImageraPage() {
     <div className="flex h-screen w-full bg-background">
       <RetrowaveGridAnimation className="absolute inset-0 z-0" />
       <Sidebar />
-      <div className="relative z-10 flex h-screen flex-1 flex-col items-center justify-center overflow-y-auto bg-background/50 p-4 backdrop-blur-sm sm:p-6 md:p-8 pl-16">
-        <div className="flex flex-col items-center text-center max-w-3xl w-full">
-            <ImageraLogo className="h-16 w-16 mb-4" />
-            <h1 className="text-4xl font-bold tracking-tight">Imagera</h1>
-            <p className="mt-2 text-lg text-muted-foreground">
-                Bring your imagination to life. Describe anything you want to see.
-            </p>
-        </div>
+      <div className="relative z-10 flex h-screen flex-1 flex-col pl-16">
+        <header className="flex h-16 shrink-0 items-center gap-4 border-b border-border/20 bg-background/50 px-6 backdrop-blur-sm">
+          <ImageraLogo className="h-8 w-8" />
+          <h1 className="text-xl font-semibold tracking-tight">Imagera</h1>
+        </header>
 
-        <main className="flex flex-1 flex-col items-center justify-center w-full max-w-3xl py-8">
-            <Card className="w-full shadow-2xl bg-card/80">
-                <CardContent className="p-4 sm:p-6">
+        <main className="flex flex-1 flex-col items-center justify-center overflow-y-auto bg-transparent p-4 sm:p-6 md:p-8">
+           <div className="w-full max-w-3xl">
+            <Card className="w-full shadow-2xl bg-card/80 backdrop-blur-sm">
+                <CardHeader className="text-center">
+                    <div className="flex justify-center items-center mb-2">
+                        <ImageraLogo className="w-12 h-12" />
+                    </div>
+                    <CardTitle className="text-3xl">Bring your imagination to life</CardTitle>
+                    <CardDescription className="text-lg">Describe anything you want to see.</CardDescription>
+                </CardHeader>
+                <CardContent className="p-4 sm:p-6 pt-0">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:flex-row">
                         <Input
                         type="text"
@@ -86,7 +91,7 @@ export default function ImageraPage() {
                 </CardContent>
             </Card>
 
-            <Card className="mt-8 w-full aspect-video max-w-3xl flex items-center justify-center rounded-lg bg-card/50 p-2 shadow-lg">
+            <Card className="mt-8 w-full aspect-video max-w-3xl flex items-center justify-center rounded-lg bg-card/50 p-2 shadow-lg backdrop-blur-sm">
                 {isLoading ? (
                     <Skeleton className="h-full w-full rounded-md" />
                 ) : generatedImage ? (
@@ -115,6 +120,7 @@ export default function ImageraPage() {
                     </div>
                 )}
             </Card>
+           </div>
         </main>
       </div>
     </div>

@@ -85,11 +85,15 @@ export default function CudaPage() {
         <GridPatternBackground />
         <Sidebar />
       <div className="relative z-10 flex h-screen flex-1 flex-col pl-16">
+         <header className="flex h-16 shrink-0 items-center gap-4 border-b border-border/20 bg-background/50 px-6 backdrop-blur-sm">
+          <CudaLogo className="h-8 w-8 text-primary" />
+          <h1 className="text-xl font-semibold tracking-tight">Cuda Code Generation</h1>
+        </header>
         <main className="flex-1 overflow-hidden">
           <ScrollArea className="h-full" viewportRef={viewportRef}>
             <div className="mx-auto max-w-4xl space-y-8 p-4 md:p-6 lg:p-8">
               {messages.length === 0 && !isLoading ? (
-                <div className="flex h-[calc(100vh-15rem)] flex-col items-center justify-center rounded-lg p-12 text-center">
+                <div className="flex h-[calc(100vh-19rem)] flex-col items-center justify-center rounded-lg p-12 text-center">
                   <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
                     <CudaLogo className="h-10 w-10 text-primary" />
                   </div>
