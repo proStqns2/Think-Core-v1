@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { CudaLogo } from '@/components/ui/cuda-logo';
-import ServerRackAnimation from '@/components/server-rack-animation';
+import NetworkGlobeAnimation from '@/components/network-globe-animation';
 import { ArrowRight, Bot, User, Copy, Loader2, Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -83,7 +83,7 @@ export default function CudaPage() {
   return (
     <>
       <div className="absolute inset-0 z-0 bg-background">
-        <ServerRackAnimation />
+        <NetworkGlobeAnimation />
       </div>
       <div className="relative z-10 flex h-screen flex-col bg-background/80 backdrop-blur-sm">
         <header className="flex h-14 shrink-0 items-center justify-between border-b px-4">
