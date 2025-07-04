@@ -6,6 +6,7 @@ import {
   Coins,
   Code,
   ImageIcon,
+  Users,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -133,6 +134,19 @@ export function ChatHeader({
             </TooltipTrigger>
             <TooltipContent>
               <p>Imagera (Image)</p>
+            </TooltipContent>
+          </Tooltip>
+           <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href="/collaborate">
+                <Button variant="ghost" size="icon">
+                  <Users className="h-5 w-5" />
+                  <span className="sr-only">Collaboration Hub</span>
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Collaborate</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

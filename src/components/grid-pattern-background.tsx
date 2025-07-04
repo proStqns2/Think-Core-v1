@@ -5,14 +5,15 @@ const GridPatternBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameId = useRef<number>();
   const time = useRef(0);
+  const colorRef = useRef('hsla(0, 0%, 100%, 0.05)'); // A safe default
 
-  const draw = useCallback((ctx: CanvasRenderingContext2D, frameCount: number) => {
+  const draw = useCallback((ctx: CanvasRenderingContext2D) => {
     const width = ctx.canvas.width;
     const height = ctx.canvas.height;
     const gridSize = 40;
 
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = 'hsla(var(--primary-foreground) / 0.05)';
+    ctx.fillStyle = colorRef.current;
     
     // Draw grid points
     for (let x = 0; x <= width; x += gridSize) {
@@ -33,21 +34,41 @@ const GridPatternBackground: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
+    const updateColor = () => {
+        try {
+            const rootStyle = getComputedStyle(document.body);
+            const foregroundHsl = rootStyle.getPropertyValue('--primary-foreground').trim();
+            if (foregroundHsl) {
+                colorRef.current = `hsla(${foregroundHsl} / 0.05)`;
+            }
+        } catch (e) {
+            console.error("Could not parse theme colors for background animation.", e);
+        }
+    };
+    
     const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
+    const handleResize = () => {
+        if (!canvas) return;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        updateColor();
+    };
+    
+    handleResize();
+    window.addEventListener('resize', handleResize);
 
     const animate = () => {
       time.current += 1;
-      draw(ctx, time.current);
+      draw(ctx);
       animationFrameId.current = requestAnimationFrame(animate);
     };
     
     animate();
 
     return () => {
+      window.removeEventListener('resize', handleResize);
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }

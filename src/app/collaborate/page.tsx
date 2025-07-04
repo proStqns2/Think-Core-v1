@@ -70,6 +70,8 @@ export default function CollaboratePage() {
         description: 'Failed to get a response from the AI. Please try again.',
         variant: 'destructive',
       });
+      const assistantMessage: CollabMessage = { id: nanoid(), role: 'assistant', content: "Sorry, I couldn't get a response. Please try again." };
+      setMessages((prev) => [...prev, assistantMessage]);
     } finally {
       setIsLoading(false);
     }
