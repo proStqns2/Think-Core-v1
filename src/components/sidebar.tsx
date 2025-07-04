@@ -2,6 +2,7 @@ import Link from 'next/link';
 import {
   BrainCircuit,
   Github,
+  Users,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -16,6 +17,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { CudaLogo } from '@/components/ui/cuda-logo';
 import { ImageraLogo } from '@/components/ui/imagera-logo';
 import { Logo } from '@/components/ui/logo';
+import { CollaborationLogo } from './ui/collaboration-logo';
 
 
 export function Sidebar() {
@@ -71,6 +73,16 @@ export function Sidebar() {
                     </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right">Imagera (Image)</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <Link href="/collaborate">
+                        <Button variant="ghost" size="icon" aria-label="Collaborate">
+                            <Users className="h-5 w-5" />
+                        </Button>
+                    </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Collaborate</TooltipContent>
             </Tooltip>
         </TooltipProvider>
       </nav>

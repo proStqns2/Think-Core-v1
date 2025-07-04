@@ -192,6 +192,50 @@
     --ring: 270 90% 65%;
   }
 
+  /* Collaboration Mode Theme (Teal) */
+  .collaboration-mode {
+    --background: 180 30% 97%;
+    --foreground: 180 10% 20%;
+    --card: 180 30% 100%;
+    --card-foreground: 180 10% 20%;
+    --popover: 180 30% 100%;
+    --popover-foreground: 180 10% 20%;
+    --primary: 175 80% 40%;
+    --primary-foreground: 175 30% 9.8%;
+    --secondary: 180 30% 95%;
+    --secondary-foreground: 180 10% 20%;
+    --muted: 180 30% 95%;
+    --muted-foreground: 180 8% 45%;
+    --accent: 185 75% 45%;
+    --accent-foreground: 185 30% 9.8%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 180 30% 98%;
+    --border: 180 30% 90%;
+    --input: 180 30% 90%;
+    --ring: 175 80% 40%;
+  }
+
+  .dark .collaboration-mode {
+    --background: 180 15% 6%;
+    --foreground: 180 20% 94%;
+    --card: 180 15% 10%;
+    --card-foreground: 180 20% 94%;
+    --popover: 180 15% 6%;
+    --popover-foreground: 180 20% 94%;
+    --primary: 175 75% 45%;
+    --primary-foreground: 175 20% 9.8%;
+    --secondary: 180 15% 15%;
+    --secondary-foreground: 180 20% 94%;
+    --muted: 180 15% 15%;
+    --muted-foreground: 180 10% 60%;
+    --accent: 185 70% 50%;
+    --accent-foreground: 185 20% 9.8%;
+    --border: 180 15% 20%;
+    --input: 180 15% 20%;
+    --ring: 175 75% 45%;
+  }
+
+
   /* Sidebar Theme */
   :root, .dark, .imagera-mode, .advanced-mode {
     --sidebar-background: 220 20% 10%;
@@ -209,6 +253,15 @@
     --sidebar-accent: 30 90% 50%;
     --sidebar-accent-foreground: 30 40% 9.8%;
     --sidebar-ring: 30 90% 50%;
+  }
+  
+  .collaboration-mode {
+    --sidebar-background: 180 15% 10%;
+    --sidebar-foreground: 180 20% 90%;
+    --sidebar-border: 180 15% 20%;
+    --sidebar-accent: 175 75% 45%;
+    --sidebar-accent-foreground: 175 20% 9.8%;
+    --sidebar-ring: 175 75% 45%;
   }
 }
 
