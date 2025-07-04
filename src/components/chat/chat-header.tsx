@@ -4,7 +4,6 @@ import {
   Download,
   FilePlus,
   Coins,
-  Home,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -17,6 +16,7 @@ import {
 } from '@/components/ui/tooltip';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
+import { Logo } from '@/components/ui/logo';
 
 interface ChatHeaderProps {
   mode: string;
@@ -42,7 +42,7 @@ export function ChatHeader({
             <TooltipTrigger asChild>
               <Link href="/">
                 <Button variant="ghost" size="icon">
-                  <Home className="h-5 w-5" />
+                  <Logo className="h-6 w-6" />
                   <span className="sr-only">Home</span>
                 </Button>
               </Link>
