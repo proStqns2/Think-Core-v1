@@ -14,12 +14,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/ui/logo';
 import { useToast } from '@/hooks/use-toast';
+import { useForm } from 'react-hook-form';
 
 export default function SignupPage() {
   const { toast } = useToast();
+  const form = useForm();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     toast({
       title: 'Feature not implemented',
       description: 'Signup functionality is not yet available.',
@@ -35,11 +36,11 @@ export default function SignupPage() {
           </div>
           <CardTitle className="text-2xl font-bold">Create an Account</CardTitle>
           <CardDescription>
-            Join Think Code AI and start your intelligent conversation.
+            Join EloquentAI and start your intelligent conversation.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <Input id="name" placeholder="Your Name" required />
