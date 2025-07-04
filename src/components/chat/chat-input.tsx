@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Send, Paperclip, Mic } from 'lucide-react';
+import { Paperclip, Mic, Settings, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -12,6 +12,7 @@ interface ChatInputProps {
   isLoading: boolean;
   onAttach: () => void;
   onMic: () => void;
+  onSettings: () => void;
 }
 
 export function ChatInput({
@@ -21,6 +22,7 @@ export function ChatInput({
   isLoading,
   onAttach,
   onMic,
+  onSettings,
 }: ChatInputProps) {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
@@ -71,14 +73,18 @@ export function ChatInput({
                 <Paperclip className="h-5 w-5" />
                 <span className="sr-only">Attach file</span>
               </Button>
-            </div>
-            <div className="flex items-center gap-1">
               <Button variant="ghost" size="icon" type="button" onClick={onMic} className="text-muted-foreground">
                 <Mic className="h-5 w-5" />
                 <span className="sr-only">Use microphone</span>
               </Button>
+            </div>
+            <div className="flex items-center gap-1">
+               <Button variant="ghost" size="icon" type="button" onClick={onSettings} className="text-muted-foreground">
+                <Settings className="h-5 w-5" />
+                <span className="sr-only">Settings</span>
+              </Button>
               <Button type="submit" size="icon" disabled={isLoading || !input.trim()} aria-label="Send message">
-                <Send className="h-5 w-5" />
+                <ArrowRight className="h-5 w-5" />
               </Button>
             </div>
           </div>

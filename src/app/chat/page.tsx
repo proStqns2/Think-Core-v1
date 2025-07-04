@@ -10,7 +10,7 @@ import type { Message } from '@/lib/types';
 import { ChatLayout } from '@/components/chat/chat-layout';
 import { nanoid } from 'nanoid';
 import NeuralNetworkAnimation from '@/components/neural-network-animation';
-import PulsingGridAnimation from '@/components/pulsing-grid-animation';
+import DigitalRainAnimation from '@/components/digital-rain-animation';
 import { Skeleton } from '@/components/ui/skeleton';
 
 function ChatPageContent() {
@@ -107,6 +107,13 @@ function ChatPageContent() {
       description: 'Voice input is not yet available.',
     });
   };
+  
+  const handleSettings = () => {
+    toast({
+      title: 'Feature not implemented',
+      description: 'Settings functionality is not yet available.',
+    });
+  };
 
 
   const handleSummarize = async () => {
@@ -176,7 +183,7 @@ function ChatPageContent() {
   return (
     <>
       <div className="absolute inset-0 z-0">
-        {mode === 'advanced' ? <NeuralNetworkAnimation /> : <PulsingGridAnimation />}
+        {mode === 'advanced' ? <NeuralNetworkAnimation /> : <DigitalRainAnimation />}
       </div>
       <main className="relative z-10 flex h-screen flex-col bg-transparent">
         <ChatLayout
@@ -193,6 +200,7 @@ function ChatPageContent() {
           onSuggestionClick={handleSuggestionClick}
           onAttach={handleAttach}
           onMic={handleMic}
+          onSettings={handleSettings}
         />
       </main>
     </>

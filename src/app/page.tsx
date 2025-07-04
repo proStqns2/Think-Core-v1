@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import NeuralNetworkAnimation from '@/components/neural-network-animation';
-import PulsingGridAnimation from '@/components/pulsing-grid-animation';
+import DigitalRainAnimation from '@/components/digital-rain-animation';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
@@ -13,7 +13,7 @@ export default function OpeningPage() {
       {/* Standard Chat Section */}
       <div className="relative w-full md:w-1/2 flex items-center justify-center overflow-hidden group border-b-2 md:border-b-0 md:border-r-2 border-slate-700">
         <div className="absolute inset-0 z-0">
-          <PulsingGridAnimation />
+          <DigitalRainAnimation />
         </div>
         <div className="absolute inset-0 z-0 bg-black/70 group-hover:bg-black/50 transition-all duration-500"></div>
         <div className="relative z-10 flex flex-col items-center justify-center text-center p-4">

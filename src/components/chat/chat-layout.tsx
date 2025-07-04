@@ -11,7 +11,7 @@ interface ChatLayoutProps {
   mode: string;
   onModeChange: (mode: string) => void;
   handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  handleSendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleSendMessage: (e: React.FormEvent<HTMLFormFormElement>) => void;
   isLoading: boolean;
   onSummarize: () => void;
   onExport: () => void;
@@ -19,6 +19,7 @@ interface ChatLayoutProps {
   onSuggestionClick: (prompt: string) => void;
   onAttach: () => void;
   onMic: () => void;
+  onSettings: () => void;
 }
 
 export function ChatLayout({
@@ -35,6 +36,7 @@ export function ChatLayout({
   onSuggestionClick,
   onAttach,
   onMic,
+  onSettings,
 }: ChatLayoutProps) {
   return (
     <div className="flex flex-col h-full w-full">
@@ -57,6 +59,7 @@ export function ChatLayout({
           isLoading={isLoading}
           onAttach={onAttach}
           onMic={onMic}
+          onSettings={onSettings}
         />
       </div>
     </div>
