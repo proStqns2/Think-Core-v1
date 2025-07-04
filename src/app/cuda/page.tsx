@@ -26,7 +26,7 @@ export default function CudaPage() {
   const [input, setInput] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const { toast } = useToast();
-  const scrollAreaRef = React.useRef<HTMLDivElement>(null);
+  const viewportRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     document.body.classList.add('cuda-mode');
@@ -37,7 +37,7 @@ export default function CudaPage() {
   }, []);
   
   React.useEffect(() => {
-    const viewport = scrollAreaRef.current?.querySelector('div[data-radix-scroll-area-viewport]');
+    const viewport = viewportRef.current;
     if (viewport) {
       viewport.scrollTo({
         top: viewport.scrollHeight,
@@ -100,7 +100,7 @@ export default function CudaPage() {
         </header>
 
         <main className="flex-1 overflow-hidden">
-          <ScrollArea className="h-full" ref={scrollAreaRef}>
+          <ScrollArea className="h-full" viewportRef={viewportRef}>
             <div className="mx-auto max-w-4xl space-y-8 p-4 md:p-6">
               {messages.length === 0 && !isLoading ? (
                 <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-orange-500/30 p-12 text-center">
