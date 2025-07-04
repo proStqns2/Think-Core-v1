@@ -42,7 +42,7 @@ export function ChatHeader({
             <TooltipTrigger asChild>
               <Link href="/">
                 <Button variant="ghost" size="icon">
-                  <Logo className="h-6 w-6" />
+                  <Logo className="h-8 w-8" />
                   <span className="sr-only">Home</span>
                 </Button>
               </Link>

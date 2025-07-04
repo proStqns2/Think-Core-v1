@@ -10,6 +10,23 @@ export const Logo = React.forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
+      {/* Shadow layer */}
+      <g transform="translate(7, 7) scale(0.9)">
+        <polygon
+          points="50,0 100,28 50,56 0,28"
+          fill="hsl(var(--foreground) / 0.15)"
+        />
+        <polygon 
+          points="0,28 50,56 50,100 0,72" 
+          fill="hsl(var(--foreground) / 0.15)"
+        />
+        <polygon
+          points="50,56 100,28 100,72 50,100"
+          fill="hsl(var(--foreground) / 0.15)"
+        />
+      </g>
+      
+      {/* Main logo layer */}
       <g transform="translate(5, 5) scale(0.9)">
         <polygon
           points="50,0 100,28 50,56 0,28"
