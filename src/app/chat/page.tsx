@@ -24,12 +24,16 @@ function ChatPageContent() {
   const { toast } = useToast();
 
   React.useEffect(() => {
+    // Clean up other potential mode classes
+    document.body.classList.remove('cuda-mode', 'imagera-mode');
+
     if (mode === 'advanced') {
       document.body.classList.add('advanced-mode');
     } else {
       document.body.classList.remove('advanced-mode');
     }
     return () => {
+      // Clean up when leaving chat page
       document.body.classList.remove('advanced-mode');
     };
   }, [mode]);

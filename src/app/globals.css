@@ -103,6 +103,96 @@
     --input: 220 20% 20%;
     --ring: 210 90% 55%;
   }
+
+  /* Cuda Mode Theme (Orange) */
+  .cuda-mode {
+    --background: 25 20% 98%;
+    --foreground: 25 10% 23%;
+    --card: 25 20% 100%;
+    --card-foreground: 25 10% 23%;
+    --popover: 25 20% 100%;
+    --popover-foreground: 25 10% 23%;
+    --primary: 30 95% 55%;
+    --primary-foreground: 30 40% 9.8%;
+    --secondary: 25 40% 96.1%;
+    --secondary-foreground: 25 10% 23%;
+    --muted: 25 40% 96.1%;
+    --muted-foreground: 25 8.9% 46.1%;
+    --accent: 35 90% 60%;
+    --accent-foreground: 25 40% 9.8%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 25 40% 98%;
+    --border: 25 40% 89.8%;
+    --input: 25 40% 89.8%;
+    --ring: 30 95% 55%;
+  }
+
+  .dark .cuda-mode {
+    --background: 20 20% 7%;
+    --foreground: 25 40% 98%;
+    --card: 20 20% 9%;
+    --card-foreground: 25 40% 98%;
+    --popover: 20 20% 7%;
+    --popover-foreground: 25 40% 98%;
+    --primary: 30 95% 55%;
+    --primary-foreground: 30 40% 9.8%;
+    --secondary: 20 20% 17%;
+    --secondary-foreground: 25 40% 98%;
+    --muted: 20 20% 17%;
+    --muted-foreground: 25 15% 65%;
+    --accent: 35 90% 60%;
+    --accent-foreground: 25 40% 9.8%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 25 40% 98%;
+    --border: 20 20% 20%;
+    --input: 20 20% 20%;
+    --ring: 30 95% 55%;
+  }
+
+  /* Imagera Mode Theme (Violet) */
+  .imagera-mode {
+    --background: 270 40% 98%;
+    --foreground: 270 10% 23%;
+    --card: 270 40% 100%;
+    --card-foreground: 270 10% 23%;
+    --popover: 270 40% 100%;
+    --popover-foreground: 270 10% 23%;
+    --primary: 270 90% 65%;
+    --primary-foreground: 270 40% 9.8%;
+    --secondary: 270 40% 96.1%;
+    --secondary-foreground: 270 10% 23%;
+    --muted: 270 40% 96.1%;
+    --muted-foreground: 270 8.9% 46.1%;
+    --accent: 280 85% 70%;
+    --accent-foreground: 270 40% 9.8%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 270 40% 98%;
+    --border: 270 40% 89.8%;
+    --input: 270 40% 89.8%;
+    --ring: 270 90% 65%;
+  }
+
+  .dark .imagera-mode {
+    --background: 270 20% 7%;
+    --foreground: 270 40% 98%;
+    --card: 270 20% 9%;
+    --card-foreground: 270 40% 98%;
+    --popover: 270 20% 7%;
+    --popover-foreground: 270 40% 98%;
+    --primary: 270 90% 65%;
+    --primary-foreground: 270 40% 9.8%;
+    --secondary: 270 20% 17%;
+    --secondary-foreground: 270 40% 98%;
+    --muted: 270 20% 17%;
+    --muted-foreground: 270 15% 65%;
+    --accent: 280 85% 70%;
+    --accent-foreground: 270 40% 9.8%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 270 40% 98%;
+    --border: 270 20% 20%;
+    --input: 270 20% 20%;
+    --ring: 270 90% 65%;
+  }
 }
 
 @layer base {

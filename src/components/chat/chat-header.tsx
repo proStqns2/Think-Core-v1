@@ -4,6 +4,8 @@ import {
   Download,
   FilePlus,
   Coins,
+  Code,
+  ImageIcon,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -100,6 +102,37 @@ export function ChatHeader({
             </TooltipTrigger>
             <TooltipContent>
               <p>Export Chat</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        
+        <Separator orientation="vertical" className="h-6" />
+        
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href="/cuda">
+                <Button variant="ghost" size="icon">
+                  <Code className="h-5 w-5" />
+                  <span className="sr-only">Cuda Code Generation</span>
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Cuda (Code)</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href="/imagera">
+                <Button variant="ghost" size="icon">
+                  <ImageIcon className="h-5 w-5" />
+                  <span className="sr-only">Imagera Image Generation</span>
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Imagera (Image)</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
