@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect } from 'react';
-import { Renderer, Program, Mesh, Triangle, Vec3 } from 'ogl';
+import { Renderer, Program, Mesh, Triangle, Vec3, Vec2 } from 'ogl';
 
 const vertex = /* glsl */ `
   attribute vec2 uv;
@@ -17,6 +17,7 @@ const fragment = /* glsl */ `
   precision highp float;
   uniform float uTime;
   uniform vec2 uResolution;
+  uniform vec2 uMouse;
   varying vec2 vUv;
 
   // Retrowave color palette
@@ -50,6 +51,11 @@ const fragment = /* glsl */ `
   void main() {
     // Normalized coordinates with perspective for the floor
     vec2 p = (2.0 * gl_FragCoord.xy - uResolution.xy) / uResolution.y;
+
+    // Apply mouse parallax effect
+    p.x += uMouse.x * 0.25;
+    p.y += uMouse.y * 0.15;
+
     p.y += 0.3; // Move horizon down
 
     // Sky gradient
@@ -140,6 +146,7 @@ const RetrowaveGridAnimation: React.FC<{className?: string}> = ({ className }) =
       uniforms: {
         uTime: { value: 0 },
         uResolution: { value: new Vec3() },
+        uMouse: { value: new Vec2() },
       },
     });
 
@@ -155,7 +162,16 @@ const RetrowaveGridAnimation: React.FC<{className?: string}> = ({ className }) =
       gl.canvas.style.height = `${clientHeight}px`;
     };
 
+    const handleMouseMove = (e: MouseEvent) => {
+        if (!container) return;
+        // Normalize mouse position from -0.5 to 0.5
+        const x = (e.clientX / container.clientWidth) - 0.5;
+        const y = (e.clientY / container.clientHeight) - 0.5;
+        program.uniforms.uMouse.value.set(x, y);
+    };
+
     window.addEventListener('resize', resize, false);
+    window.addEventListener('mousemove', handleMouseMove, false);
     resize();
     
     let animationFrameId: number;
@@ -169,6 +185,7 @@ const RetrowaveGridAnimation: React.FC<{className?: string}> = ({ className }) =
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
       if (gl.canvas && container && container.contains(gl.canvas)) {
         container.removeChild(gl.canvas);
       }
