@@ -8,6 +8,7 @@ import { Skeleton } from '../ui/skeleton';
 import { Logo } from '../ui/logo';
 import { Button } from '../ui/button';
 import { useToast } from '@/hooks/use-toast';
+import Orb from '../orb';
 
 interface ChatMessageProps {
   message?: Message;
@@ -30,14 +31,13 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
   if (isLoading) {
     return (
       <div className="flex items-start gap-4">
-        <Avatar className="h-9 w-9 border">
-          <AvatarFallback>
-            <Logo className="h-5 w-5 text-primary" />
-          </AvatarFallback>
+        <Avatar className="h-9 w-9 border bg-black overflow-hidden">
+          <Orb forceHoverState={true} hue={210} />
         </Avatar>
-        <div className="flex flex-col gap-2">
-          <Skeleton className="h-4 w-24" />
-          <Skeleton className="h-4 w-48" />
+        <div className="flex flex-col gap-2 pt-1">
+          <p className="text-sm text-muted-foreground animate-pulse">
+            EloquentAI is thinking...
+          </p>
         </div>
       </div>
     );
