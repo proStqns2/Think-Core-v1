@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import type { Message } from '@/lib/types';
 import { ChatLayout } from '@/components/chat/chat-layout';
 import { nanoid } from 'nanoid';
+import NeuralNetworkAnimation from '@/components/neural-network-animation';
 
 export default function ChatPage() {
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -26,6 +27,13 @@ export default function ChatPage() {
       document.body.classList.remove('advanced-mode');
     };
   }, [mode]);
+
+  React.useEffect(() => {
+    document.body.classList.add('landing-page-active');
+    return () => {
+      document.body.classList.remove('landing-page-active');
+    };
+  }, []);
 
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -126,18 +134,23 @@ export default function ChatPage() {
   };
 
   return (
-    <main className="flex h-screen flex-col items-center justify-center p-4 md:p-6 bg-transparent">
-      <ChatLayout
-        messages={messages}
-        input={input}
-        handleInputChange={(e) => setInput(e.target.value)}
-        handleSendMessage={handleSendMessage}
-        isLoading={isLoading}
-        onSummarize={handleSummarize}
-        onExport={handleExport}
-        mode={mode}
-        onModeChange={setMode}
-      />
-    </main>
+    <>
+      <div className="absolute inset-0 z-0">
+        <NeuralNetworkAnimation />
+      </div>
+      <main className="relative z-10 flex h-screen flex-col items-center justify-center p-4 md:p-6 bg-transparent">
+        <ChatLayout
+          messages={messages}
+          input={input}
+          handleInputChange={(e) => setInput(e.target.value)}
+          handleSendMessage={handleSendMessage}
+          isLoading={isLoading}
+          onSummarize={handleSummarize}
+          onExport={handleExport}
+          mode={mode}
+          onModeChange={setMode}
+        />
+      </main>
+    </>
   );
 }
