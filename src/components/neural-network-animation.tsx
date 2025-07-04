@@ -91,7 +91,7 @@ const NeuralNetworkAnimation: React.FC = () => {
     canvas.height = window.innerHeight;
 
     particles.current = [];
-    const numberOfParticles = (canvas.height * canvas.width) / 9000;
+    const numberOfParticles = (canvas.height * canvas.width) / 4500;
     for (let i = 0; i < numberOfParticles; i++) {
         // @ts-ignore
         particles.current.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height, canvas, ctx));
