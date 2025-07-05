@@ -17,6 +17,7 @@ import {
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/ui/logo';
+import { BrainCircuit } from 'lucide-react';
 
 interface ChatHeaderProps {
   mode: string;
@@ -34,36 +35,17 @@ export function ChatHeader({
   const isAdvanced = mode === 'advanced';
 
   return (
-    <header className="flex h-14 items-center justify-between gap-4 border-b bg-background/50 px-4 backdrop-blur-sm">
-      {/* Left side: Tabs */}
-      <div className="flex items-center gap-2">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link href="/">
-                <Button variant="ghost" size="icon">
-                  <Logo className="h-8 w-8" />
-                  <span className="sr-only">Home</span>
-                </Button>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Back to Home</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-
-        <div className="flex items-center gap-2 rounded-md bg-muted/50 p-1 pr-3">
-          <div
-            className={cn(
-              'h-2 w-2 rounded-full',
-              isAdvanced ? 'bg-blue-500' : 'bg-green-500'
-            )}
-          />
-          <span className="text-sm font-medium text-foreground">
-            EloquentAI Chat
-          </span>
-        </div>
+    <header className="flex h-16 shrink-0 items-center justify-between gap-4 border-b border-border/20 bg-background/50 px-4 backdrop-blur-sm">
+      {/* Left side: Title */}
+      <div className="flex items-center gap-3">
+        {isAdvanced ? (
+          <BrainCircuit className="h-7 w-7 text-primary" />
+        ) : (
+          <Logo className="h-7 w-7 text-primary" />
+        )}
+        <h1 className="text-xl font-semibold tracking-tight">
+          {isAdvanced ? 'Advanced Chat' : 'Standard Chat'}
+        </h1>
       </div>
 
       {/* Right side: Actions & User Info */}
@@ -104,11 +86,7 @@ export function ChatHeader({
           </Tooltip>
         </TooltipProvider>
         
-        <Separator orientation="vertical" className="h-6" />
-
-        <ThemeToggle />
-        
-        <Separator orientation="vertical" className="h-6" />
+        <Separator orientation="vertical" className="mx-2 h-6" />
 
         <div className="flex items-center gap-2 rounded-full bg-muted/50 p-1 pr-3">
           <Coins className="h-5 w-5 text-amber-500" />

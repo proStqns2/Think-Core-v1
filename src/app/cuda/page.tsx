@@ -29,7 +29,7 @@ export default function CudaPage() {
 
   React.useEffect(() => {
     document.body.classList.add('cuda-mode');
-    document.body.classList.remove('advanced-mode', 'imagera-mode');
+    document.body.classList.remove('advanced-mode', 'imagera-mode', 'collaboration-mode');
     return () => {
       document.body.classList.remove('cuda-mode');
     };
@@ -66,6 +66,8 @@ export default function CudaPage() {
         description: 'Failed to generate code. Please try again.',
         variant: 'destructive',
       });
+      const assistantMessage: CudaMessage = { id: nanoid(), role: 'assistant', content: 'Sorry, there was an error generating the code.' };
+      setMessages((prev) => [...prev, assistantMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -101,6 +103,9 @@ export default function CudaPage() {
                   <p className="mt-2 text-lg text-muted-foreground">
                     Generate code snippets powered by Manim & NVIDIA samples.
                   </p>
+                   <p className="mt-4 text-sm text-muted-foreground">
+                      Try asking: <em className='text-foreground/80'>"Write a React hook to fetch data from an API"</em>
+                    </p>
                 </div>
               ) : (
                 messages.map((message) => (

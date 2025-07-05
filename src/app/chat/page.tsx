@@ -12,6 +12,7 @@ import { nanoid } from 'nanoid';
 import NeuralNetworkAnimation from '@/components/neural-network-animation';
 import DigitalRainAnimation from '@/components/digital-rain-animation';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Sidebar } from '@/components/sidebar';
 
 function ChatPageContent() {
   const searchParams = useSearchParams();
@@ -20,22 +21,23 @@ function ChatPageContent() {
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [input, setInput] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
-  const [mode] = React.useState(initialMode);
+  const [mode, setMode] = React.useState(initialMode);
   const { toast } = useToast();
 
   React.useEffect(() => {
+    const newMode = searchParams.get('mode') === 'advanced' ? 'advanced' : 'standard';
+    setMode(newMode);
+  }, [searchParams]);
+
+  React.useEffect(() => {
     // Clean up other potential mode classes
-    document.body.classList.remove('cuda-mode', 'imagera-mode');
+    document.body.classList.remove('cuda-mode', 'imagera-mode', 'collaboration-mode');
 
     if (mode === 'advanced') {
       document.body.classList.add('advanced-mode');
     } else {
       document.body.classList.remove('advanced-mode');
     }
-    return () => {
-      // Clean up when leaving chat page
-      document.body.classList.remove('advanced-mode');
-    };
   }, [mode]);
 
   const submitMessage = async (messageContent: string) => {
@@ -185,11 +187,12 @@ function ChatPageContent() {
   };
 
   return (
-    <>
+    <div className="flex h-screen w-full bg-background">
       <div className="absolute inset-0 z-0">
         {mode === 'advanced' ? <NeuralNetworkAnimation /> : <DigitalRainAnimation />}
       </div>
-      <main className="relative z-10 flex h-screen flex-col bg-transparent">
+      <Sidebar />
+      <main className="relative z-10 flex h-screen flex-1 flex-col pl-16">
         <ChatLayout
           messages={messages}
           input={input}
@@ -206,7 +209,7 @@ function ChatPageContent() {
           onSettings={handleSettings}
         />
       </main>
-    </>
+    </div>
   );
 }
 

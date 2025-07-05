@@ -17,13 +17,14 @@ import { CudaLogo } from '@/components/ui/cuda-logo';
 import { ImageraLogo } from '@/components/ui/imagera-logo';
 import { Logo } from '@/components/ui/logo';
 import { cn } from '@/lib/utils';
+import { CollaborationLogo } from './ui/collaboration-logo';
 
 const navItems = [
   { href: '/chat', label: 'Standard Chat', icon: Logo, iconClassName: 'h-6 w-6', query: { mode: 'standard' } },
   { href: '/chat', label: 'Advanced Chat', icon: BrainCircuit, iconClassName: 'h-5 w-5', query: { mode: 'advanced' } },
   { href: '/cuda', label: 'Cuda (Code)', icon: CudaLogo, iconClassName: 'h-7 w-7' },
   { href: '/imagera', label: 'Imagera (Image)', icon: ImageraLogo, iconClassName: 'h-6 w-6' },
-  { href: '/collaborate', label: 'Collaborate', icon: Users, iconClassName: 'h-5 w-5' },
+  { href: '/collaborate', label: 'Collaborate', icon: CollaborationLogo, iconClassName: 'h-6 w-6' },
 ];
 
 export function Sidebar() {
@@ -46,7 +47,7 @@ export function Sidebar() {
             <TooltipContent side="right">Home</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <Separator className="w-4/5" />
+        <Separator className="bg-sidebar-border" />
       </div>
 
       <nav className="flex flex-1 flex-col items-center gap-2 p-2">
@@ -56,12 +57,8 @@ export function Sidebar() {
             let isActive: boolean;
 
             if (item.href === '/chat') {
-              if (item.query?.mode === 'advanced') {
-                isActive = pathname === '/chat' && currentMode === 'advanced';
-              } else {
-                // Standard mode is default or when mode is 'standard'
-                isActive = pathname === '/chat' && currentMode !== 'advanced';
-              }
+              // This logic handles the two chat modes correctly
+              isActive = pathname === '/chat' && currentMode === item.query?.mode;
             } else {
               isActive = pathname.startsWith(item.href);
             }
@@ -72,10 +69,11 @@ export function Sidebar() {
                 <TooltipTrigger asChild>
                   <Link href={{ pathname: item.href, query: item.query }}>
                     <Button
-                      variant={isActive ? 'outline' : 'ghost'}
+                      variant={isActive ? 'secondary' : 'ghost'}
                       size="icon"
                       aria-label={item.label}
                       className={cn(
+                        'text-sidebar-foreground/80 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground',
                         isActive && 'bg-sidebar-accent text-sidebar-accent-foreground'
                       )}
                     >
@@ -96,7 +94,7 @@ export function Sidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href="https://github.com/ManimCommunity/manim.git"
+                href="https://github.com/proStqns2/Think_Core_AI"
                 target="_blank"
               >
                 <Button variant="ghost" size="icon" aria-label="GitHub">
@@ -104,7 +102,7 @@ export function Sidebar() {
                 </Button>
               </Link>
             </TooltipTrigger>
-            <TooltipContent side="right">Inspired by Manim</TooltipContent>
+            <TooltipContent side="right">View on GitHub</TooltipContent>
           </Tooltip>
         </TooltipProvider>
         <Avatar className="h-9 w-9">

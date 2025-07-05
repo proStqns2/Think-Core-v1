@@ -44,20 +44,22 @@ export function ChatLayout({
         onNewChat={onNewChat}
         mode={mode}
       />
-      <ChatMessages messages={messages} isLoading={isLoading} />
-      <div className="mt-auto w-full">
-        {messages.length === 0 && !isLoading && (
-          <SuggestionChips onSuggestionClick={onSuggestionClick} />
-        )}
-        <ChatInput
-          input={input}
-          handleInputChange={handleInputChange}
-          handleSendMessage={handleSendMessage}
-          isLoading={isLoading}
-          onAttach={onAttach}
-          onMic={onMic}
-          onSettings={onSettings}
-        />
+      <div className="flex-1 overflow-hidden flex flex-col">
+        <ChatMessages messages={messages} isLoading={isLoading} />
+        <div className="mt-auto w-full">
+          {messages.length === 0 && !isLoading && (
+            <SuggestionChips onSuggestionClick={onSuggestionClick} />
+          )}
+          <ChatInput
+            input={input}
+            handleInputChange={handleInputChange}
+            handleSendMessage={handleSendMessage}
+            isLoading={isLoading}
+            onAttach={onAttach}
+            onMic={onMic}
+            onSettings={onSettings}
+          />
+        </div>
       </div>
     </div>
   );
