@@ -7,21 +7,76 @@ import { Sidebar } from '@/components/sidebar';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { nanoid } from 'nanoid';
-import { ArrowRight, Bot, Github, Loader2, User, Gitlab } from 'lucide-react';
+import { ArrowRight, Bot, Github, Loader2, User, Gitlab, Settings, GitPullRequest } from 'lucide-react';
 import { CollaborationLogo } from '@/components/ui/collaboration-logo';
 import CollaborationAnimation from '@/components/collaboration-animation';
 import { AzureDevopsLogo } from '@/components/ui/azure-devops-logo';
 import { collaborationChatResponse } from '@/ai/flows/collaboration-chat-response';
 
 
+type GithubUser = {
+  name: string;
+  publicRepos: number;
+  followers: number;
+}
+
+type GithubIssue = {
+  id: number;
+  title: string;
+  author: string;
+}
+
 type CollabMessage = {
   id: string;
   role: 'user' | 'assistant';
   content: string;
+  data?: any;
+  dataType?: 'githubUser' | 'githubIssues';
 };
+
+function GithubUserCard({ user }: { user: GithubUser }) {
+  return (
+    <Card className="mt-3 border-primary/20 bg-primary/5">
+      <CardHeader className='pb-3'>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Github className="h-5 w-5" /> {user.name}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex gap-4 text-sm">
+        <div><strong>Public Repos:</strong> {user.publicRepos}</div>
+        <div><strong>Followers:</strong> {user.followers}</div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function GithubIssuesList({ issues }: { issues: GithubIssue[] }) {
+  return (
+    <Card className="mt-3 border-primary/20 bg-primary/5">
+      <CardHeader className='pb-3'>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <GitPullRequest className="h-5 w-5" /> Open Issues
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ul className="space-y-2 text-sm">
+          {issues.map(issue => (
+            <li key={issue.id} className="border-b border-border/50 pb-2 last:border-b-0">
+              <span className="font-medium">#{issue.id}: {issue.title}</span>
+              <span className="block text-xs text-muted-foreground">by {issue.author}</span>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+    </Card>
+  );
+}
+
 
 export default function CollaboratePage() {
   const [messages, setMessages] = React.useState<CollabMessage[]>([]);
@@ -63,8 +118,26 @@ export default function CollaboratePage() {
     setIsLoading(true);
 
     try {
-      const { response } = await collaborationChatResponse({ prompt: currentInput });
-      const assistantMessage: CollabMessage = { id: nanoid(), role: 'assistant', content: response };
+      const result = await collaborationChatResponse({ prompt: currentInput });
+      
+      let dataType: 'githubUser' | 'githubIssues' | undefined = undefined;
+      let data: any = undefined;
+
+      if (result.githubUser) {
+        dataType = 'githubUser';
+        data = result.githubUser;
+      } else if (result.githubIssues && result.githubIssues.length > 0) {
+        dataType = 'githubIssues';
+        data = result.githubIssues;
+      }
+
+      const assistantMessage: CollabMessage = { 
+        id: nanoid(), 
+        role: 'assistant', 
+        content: result.responseText,
+        dataType,
+        data,
+      };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error('Error getting AI response:', error);
@@ -84,12 +157,78 @@ export default function CollaboratePage() {
     <div className="flex h-screen w-full bg-background">
       <CollaborationAnimation />
       <Sidebar />
-      <div className="relative z-10 flex h-screen flex-1 pl-16">
-        {/* Chat Panel */}
-        <div className="flex w-2/3 flex-col border-r border-border/20">
-          <header className="flex h-16 shrink-0 items-center gap-3 border-b border-border/20 bg-background/50 px-6 backdrop-blur-sm">
+      <div className="relative z-10 flex h-screen flex-1 flex-col pl-16">
+          <header className="flex h-16 shrink-0 items-center gap-4 border-b border-border/20 bg-background/50 px-6 backdrop-blur-sm">
             <CollaborationLogo className="h-7 w-7 text-primary" />
             <h1 className="text-xl font-semibold tracking-tight">Collaboration Hub</h1>
+            
+            <div className="ml-auto flex items-center gap-4">
+              <div className="flex items-center gap-2 border-r pr-4 mr-2 border-border/50">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger><Github className={cn('h-5 w-5 transition-colors', connectedServices['GitHub'] ? 'text-primary' : 'text-muted-foreground/50')} /></TooltipTrigger>
+                    <TooltipContent>GitHub: {connectedServices['GitHub'] ? 'Connected' : 'Disconnected'}</TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger><Gitlab className={cn('h-5 w-5 transition-colors', connectedServices['GitLab'] ? 'text-primary' : 'text-muted-foreground/50')} /></TooltipTrigger>
+                    <TooltipContent>GitLab: {connectedServices['GitLab'] ? 'Connected' : 'Disconnected'}</TooltipContent>
+                  </Tooltip>
+                   <Tooltip>
+                    <TooltipTrigger><AzureDevopsLogo className={cn('h-5 w-5 transition-colors', connectedServices['Azure DevOps'] ? 'text-primary' : 'text-muted-foreground/50')} /></TooltipTrigger>
+                    <TooltipContent>Azure DevOps: {connectedServices['Azure DevOps'] ? 'Connected' : 'Disconnected'}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline"><Settings className="mr-2 h-4 w-4" /> Manage Connections</Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Connect Services</SheetTitle>
+                    <SheetDescription>
+                      Manage your connections to third-party developer services.
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="space-y-6 py-6">
+                    <Card className={cn('bg-card/80 transition-all', connectedServices['GitHub'] && 'border-primary')}>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2"><Github /> GitHub</CardTitle>
+                        <CardDescription>Connect your repositories for seamless integration.</CardDescription>
+                      </CardHeader>
+                      <CardFooter>
+                        <Button className="w-full" onClick={() => handleConnect('GitHub')} variant={connectedServices['GitHub'] ? 'secondary' : 'default'}>
+                          {connectedServices['GitHub'] ? 'Disconnect' : 'Connect'}
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                    <Card className={cn('bg-card/80 transition-all', connectedServices['GitLab'] && 'border-primary')}>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2"><Gitlab /> GitLab</CardTitle>
+                        <CardDescription>Link your projects and pipelines.</CardDescription>
+                      </CardHeader>
+                      <CardFooter>
+                        <Button className="w-full" onClick={() => handleConnect('GitLab')} variant={connectedServices['GitLab'] ? 'secondary' : 'default'}>
+                          {connectedServices['GitLab'] ? 'Disconnect' : 'Connect'}
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                    <Card className={cn('bg-card/80 transition-all', connectedServices['Azure DevOps'] && 'border-primary')}>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2"><AzureDevopsLogo className="h-5 w-5" /> Azure DevOps</CardTitle>
+                        <CardDescription>Integrate your boards and repos from Azure.</CardDescription>
+                      </CardHeader>
+                      <CardFooter>
+                        <Button className="w-full" onClick={() => handleConnect('Azure DevOps')} variant={connectedServices['Azure DevOps'] ? 'secondary' : 'default'}>
+                          {connectedServices['Azure DevOps'] ? 'Disconnect' : 'Connect'}
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </header>
           <main className="flex-1 overflow-hidden">
             <ScrollArea className="h-full" viewportRef={viewportRef}>
@@ -103,6 +242,9 @@ export default function CollaboratePage() {
                     <p className="mt-2 text-lg text-muted-foreground">
                       Connect your developer tools and start collaborating with your team.
                     </p>
+                     <p className="mt-4 text-sm text-muted-foreground">
+                      Try asking: <em className='text-foreground/80'>"List issues for google/genkit"</em> or <em className='text-foreground/80'>"Get details for proStqns2"</em>
+                    </p>
                   </div>
                 ) : (
                   messages.map((message) => (
@@ -112,8 +254,10 @@ export default function CollaboratePage() {
                           <AvatarFallback><Bot className="h-5 w-5" /></AvatarFallback>
                         </Avatar>
                       )}
-                      <div className={cn('max-w-2xl rounded-lg p-3', message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-card/80 backdrop-blur-sm')}>
+                      <div className={cn('max-w-2xl rounded-lg', message.role === 'user' ? 'bg-primary p-3 text-primary-foreground' : 'border bg-card/80 p-3 backdrop-blur-sm')}>
                          <p className="whitespace-pre-wrap">{message.content}</p>
+                         {message.dataType === 'githubUser' && message.data && <GithubUserCard user={message.data} />}
+                         {message.dataType === 'githubIssues' && message.data && <GithubIssuesList issues={message.data} />}
                       </div>
                       {message.role === 'user' && (
                          <Avatar className="h-9 w-9 border bg-muted shadow-sm">
@@ -143,7 +287,7 @@ export default function CollaboratePage() {
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about a GitHub user, e.g., 'Get details for proStqns2'"
+                  placeholder="Ask about a GitHub user or repository..."
                   className="resize-none border-0 bg-transparent pr-12 shadow-none focus-visible:ring-0"
                   rows={1}
                   onKeyDown={(e) => {
@@ -157,49 +301,6 @@ export default function CollaboratePage() {
             </form>
           </footer>
         </div>
-        
-        {/* Connections Panel */}
-        <div className="w-1/3 flex-col bg-background/30 backdrop-blur-sm">
-           <header className="flex h-16 shrink-0 items-center gap-3 border-b border-border/20 px-6">
-            <h2 className="text-lg font-semibold tracking-tight">Connect Services</h2>
-          </header>
-          <div className="space-y-6 p-6">
-            <Card className={cn('bg-card/80 transition-all', connectedServices['GitHub'] && 'border-primary')}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Github /> GitHub</CardTitle>
-                <CardDescription>Connect your repositories for seamless integration.</CardDescription>
-              </CardHeader>
-              <CardFooter>
-                <Button className="w-full" onClick={() => handleConnect('GitHub')} variant={connectedServices['GitHub'] ? 'secondary' : 'default'}>
-                  {connectedServices['GitHub'] ? 'Disconnect' : 'Connect'}
-                </Button>
-              </CardFooter>
-            </Card>
-            <Card className={cn('bg-card/80 transition-all', connectedServices['GitLab'] && 'border-primary')}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Gitlab /> GitLab</CardTitle>
-                <CardDescription>Link your projects and pipelines.</CardDescription>
-              </CardHeader>
-               <CardFooter>
-                <Button className="w-full" onClick={() => handleConnect('GitLab')} variant={connectedServices['GitLab'] ? 'secondary' : 'default'}>
-                  {connectedServices['GitLab'] ? 'Disconnect' : 'Connect'}
-                </Button>
-              </CardFooter>
-            </Card>
-            <Card className={cn('bg-card/80 transition-all', connectedServices['Azure DevOps'] && 'border-primary')}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2"><AzureDevopsLogo className="h-5 w-5" /> Azure DevOps</CardTitle>
-                <CardDescription>Integrate your boards and repos from Azure.</CardDescription>
-              </CardHeader>
-               <CardFooter>
-                <Button className="w-full" onClick={() => handleConnect('Azure DevOps')} variant={connectedServices['Azure DevOps'] ? 'secondary' : 'default'}>
-                  {connectedServices['Azure DevOps'] ? 'Disconnect' : 'Connect'}
-                </Button>
-              </CardFooter>
-            </Card>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

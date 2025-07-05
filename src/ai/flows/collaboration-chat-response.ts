@@ -16,8 +16,22 @@ const CollaborationChatInputSchema = z.object({
 });
 export type CollaborationChatInput = z.infer<typeof CollaborationChatInputSchema>;
 
+const GithubUserDetailsSchema = z.object({
+  name: z.string().describe("The user's display name."),
+  publicRepos: z.number().describe('Number of public repositories.'),
+  followers: z.number().describe('Number of followers.'),
+});
+
+const GithubIssueSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  author: z.string(),
+});
+
 const CollaborationChatOutputSchema = z.object({
-  response: z.string().describe('The response from the collaboration AI.'),
+  responseText: z.string().describe('A helpful, conversational response to the user.'),
+  githubUser: z.optional(GithubUserDetailsSchema).describe('Details for a GitHub user, if requested.'),
+  githubIssues: z.optional(z.array(GithubIssueSchema)).describe('A list of GitHub issues, if requested.'),
 });
 export type CollaborationChatOutput = z.infer<typeof CollaborationChatOutputSchema>;
 
@@ -28,11 +42,7 @@ const getGithubUserDetails = ai.defineTool(
     inputSchema: z.object({
       username: z.string().describe('The GitHub username.'),
     }),
-    outputSchema: z.object({
-      name: z.string().describe("The user's display name."),
-      publicRepos: z.number().describe('Number of public repositories.'),
-      followers: z.number().describe('Number of followers.'),
-    }),
+    outputSchema: GithubUserDetailsSchema,
   },
   async ({ username }) => {
     // In a real app, you'd call the GitHub API here.
@@ -54,11 +64,7 @@ const listGithubIssues = ai.defineTool(
       owner: z.string().describe("The repository owner's username."),
       repo: z.string().describe('The name of the repository.'),
     }),
-    outputSchema: z.array(z.object({
-      id: z.number(),
-      title: z.string(),
-      author: z.string(),
-    })),
+    outputSchema: z.array(GithubIssueSchema),
   },
   async ({ owner, repo }) => {
     // In a real app, you'd call the GitHub API here.
@@ -82,7 +88,10 @@ const prompt = ai.definePrompt({
   tools: [getGithubUserDetails, listGithubIssues],
   prompt: `You are a collaboration assistant AI. Your goal is to help teams communicate effectively and plan projects.
 
-If the user asks about GitHub (e.g., user details, repository issues), use the provided tools to get the information. Otherwise, respond to the user's prompt in a helpful and concise manner.
+- Always generate a helpful, conversational response to the user's prompt and place it in the \`responseText\` field.
+- If the user asks about specific GitHub information (like user details or repository issues), you MUST use the provided tools to get the information.
+- After using a tool, populate the corresponding structured data field in the output object (\`githubUser\` or \`githubIssues\`).
+- If no tool is used, leave the \`githubUser\` and \`githubIssues\` fields empty.
 
 User prompt: {{{prompt}}}`,
 });
