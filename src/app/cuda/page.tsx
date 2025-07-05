@@ -11,7 +11,7 @@ import { nanoid } from 'nanoid';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import GridPatternBackground from '@/components/grid-pattern-background';
+import CodeNetworkAnimation from '@/components/code-network-animation';
 import { Sidebar } from '@/components/sidebar';
 
 type CudaMessage = {
@@ -84,7 +84,7 @@ export default function CudaPage() {
 
   return (
     <div className="flex h-screen w-full bg-background">
-        <GridPatternBackground />
+        <CodeNetworkAnimation />
         <Sidebar />
       <div className="relative z-10 flex h-screen flex-1 flex-col pl-16">
          <header className="flex h-16 shrink-0 items-center gap-4 border-b border-border/20 bg-background/50 px-6 backdrop-blur-sm">
@@ -101,10 +101,10 @@ export default function CudaPage() {
                   </div>
                   <h2 className="text-3xl font-semibold tracking-tight">Cuda Code Generation</h2>
                   <p className="mt-2 text-lg text-muted-foreground">
-                    Generate code snippets powered by Manim & NVIDIA samples.
+                    Generate code snippets in React, Rust, and more.
                   </p>
                    <p className="mt-4 text-sm text-muted-foreground">
-                      Try asking: <em className='text-foreground/80'>"Write a React hook to fetch data from an API"</em>
+                      Try asking: <em className='text-foreground/80'>"Write a Rust function to find the median of a vector"</em>
                     </p>
                 </div>
               ) : (
