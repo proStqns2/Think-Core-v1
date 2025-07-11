@@ -30,7 +30,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="page-transition-fade-in">{children}</div>
+          {children}
           <Toaster />
         </ThemeProvider>
       </body>

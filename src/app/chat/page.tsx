@@ -100,37 +100,27 @@ function ChatPageContent() {
     await submitMessage(prompt);
   };
   
-  // TODO: Implement Attach file functionality
-  // const handleAttach = () => {
-  //   toast({
-  //     title: 'Feature not implemented',
-  //     description: 'File uploads are not yet available.',
-  //   });
-  // };
-
-  // TODO: Implement Use microphone functionality
-  // const handleMic = () => {
-  //   toast({
-  //     title: 'Feature not implemented',
-  //     description: 'Voice input is not yet available.',
-  //   });
-  // };
-  
-  // TODO: Implement Settings functionality
-  // const handleSettings = () => {
-  //   toast({
-  //     title: 'Feature not implemented',
-  //     description: 'Settings functionality is not yet available.',
-  //   });
-  // };
-
-  const handleDeleteMessage = (messageId: string) => {
-    setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== messageId));
+  const handleAttach = () => {
     toast({
-      title: 'Message Deleted',
-      description: 'The message has been removed from the chat.',
+      title: 'Feature not implemented',
+      description: 'File uploads are not yet available.',
     });
   };
+
+  const handleMic = () => {
+    toast({
+      title: 'Feature not implemented',
+      description: 'Voice input is not yet available.',
+    });
+  };
+  
+  const handleSettings = () => {
+    toast({
+      title: 'Feature not implemented',
+      description: 'Settings functionality is not yet available.',
+    });
+  };
+
 
   const handleSummarize = async () => {
     if (messages.length === 0 || isLoading) return;
@@ -214,13 +204,9 @@ function ChatPageContent() {
           onExport={handleExport}
           mode={mode}
           onSuggestionClick={handleSuggestionClick}
-          onDeleteMessage={handleDeleteMessage} // Pass handleDeleteMessage
-          // TODO: Implement Attach file functionality
-          // onAttach={handleAttach}
-          // TODO: Implement Use microphone functionality
-          // onMic={handleMic}
-          // TODO: Implement Settings functionality
-          // onSettings={handleSettings}
+          onAttach={handleAttach}
+          onMic={handleMic}
+          onSettings={handleSettings}
         />
       </main>
     </div>

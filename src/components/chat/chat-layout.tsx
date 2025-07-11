@@ -16,13 +16,9 @@ interface ChatLayoutProps {
   onExport: () => void;
   onNewChat: () => void;
   onSuggestionClick: (prompt: string) => void;
-  onDeleteMessage?: (messageId: string) => void; // Added onDeleteMessage prop
-  // TODO: Implement Attach file functionality
-  // onAttach: () => void;
-  // TODO: Implement Use microphone functionality
-  // onMic: () => void;
-  // TODO: Implement Settings functionality
-  // onSettings: () => void;
+  onAttach: () => void;
+  onMic: () => void;
+  onSettings: () => void;
 }
 
 export function ChatLayout({
@@ -36,10 +32,9 @@ export function ChatLayout({
   onExport,
   onNewChat,
   onSuggestionClick,
-  onDeleteMessage, // Added onDeleteMessage
-  // onAttach,
-  // onMic,
-  // onSettings,
+  onAttach,
+  onMic,
+  onSettings,
 }: ChatLayoutProps) {
   return (
     <div className="flex flex-col h-full w-full">
@@ -50,12 +45,7 @@ export function ChatLayout({
         mode={mode}
       />
       <div className="flex-1 overflow-hidden flex flex-col">
-        <ChatMessages
-          messages={messages}
-          isLoading={isLoading}
-          mode={mode}
-          onDeleteMessage={onDeleteMessage} // Pass onDeleteMessage
-        />
+        <ChatMessages messages={messages} isLoading={isLoading} />
         <div className="mt-auto w-full">
           {messages.length === 0 && !isLoading && (
             <SuggestionChips onSuggestionClick={onSuggestionClick} />
@@ -65,12 +55,9 @@ export function ChatLayout({
             handleInputChange={handleInputChange}
             handleSendMessage={handleSendMessage}
             isLoading={isLoading}
-            // TODO: Implement Attach file functionality
-            // onAttach={onAttach}
-            // TODO: Implement Use microphone functionality
-            // onMic={onMic}
-            // TODO: Implement Settings functionality
-            // onSettings={onSettings}
+            onAttach={onAttach}
+            onMic={onMic}
+            onSettings={onSettings}
           />
         </div>
       </div>

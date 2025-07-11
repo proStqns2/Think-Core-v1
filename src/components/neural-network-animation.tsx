@@ -21,8 +21,7 @@ const NeuralNetworkAnimation: React.FC = () => {
     this.radius = Math.random() * 2 + 1;
     this.vx = Math.random() * 1 - 0.5;
     this.vy = Math.random() * 1 - 0.5;
-    this.originalColor = `hsl(${Math.random() * 60 + 200}, 100%, 70%)`; // Store original color
-    this.color = this.originalColor;
+    this.color = `hsl(${Math.random() * 60 + 200}, 100%, 70%)`;
 
     this.draw = () => {
       ctx.beginPath();
@@ -38,21 +37,18 @@ const NeuralNetworkAnimation: React.FC = () => {
       if (this.x > canvas.width || this.x < 0) this.vx = -this.vx;
       if (this.y > canvas.height || this.y < 0) this.vy = -this.vy;
 
-      this.color = this.originalColor; // Reset color each frame before mouse check
-
        // Mouse interaction
        if (mouse.current.x !== null && mouse.current.y !== null) {
         const dx = mouse.current.x - this.x;
         const dy = mouse.current.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         if (distance < mouse.current.radius) {
-          this.color = 'hsl(0, 100%, 70%)'; // Change color to red when mouse is near
           const forceDirectionX = dx / distance;
           const forceDirectionY = dy / distance;
           const maxDistance = mouse.current.radius;
           const force = (maxDistance - distance) / maxDistance;
-          const directionX = forceDirectionX * force * 5; // Increased force
-          const directionY = forceDirectionY * force * 5; // Increased force
+          const directionX = forceDirectionX * force * 2;
+          const directionY = forceDirectionY * force * 2;
           this.x -= directionX;
           this.y -= directionY;
         }

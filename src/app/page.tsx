@@ -9,9 +9,9 @@ import { Logo } from '@/components/ui/logo';
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col md:flex-row h-screen w-full bg-black"> {/* Ensured main background is black for neon effect */}
+    <div className="flex h-screen w-full">
       {/* Left Panel: Standard Chat */}
-      <div className="group relative flex w-full md:w-1/2 h-1/2 md:h-full flex-col items-center justify-center overflow-hidden border-r border-green-500/30 bg-black text-white shadow-[0_0_15px_2px_rgba(52,211,153,0.2)] hover:shadow-[0_0_25px_5px_rgba(52,211,153,0.35)] transition-shadow duration-300"> {/* Neon effect and adjusted border */}
+      <div className="group relative flex w-1/2 flex-col items-center justify-center overflow-hidden border-r border-green-500/20 bg-black text-white">
         <div className="absolute inset-0 z-0">
           <DigitalRainAnimation />
         </div>
@@ -41,7 +41,7 @@ export default function HomePage() {
       </div>
 
       {/* Right Panel: Advanced Chat */}
-      <div className="group relative flex w-full md:w-1/2 h-1/2 md:h-full flex-col items-center justify-center overflow-hidden border-l border-blue-500/30 bg-black text-white shadow-[0_0_15px_2px_rgba(96,165,250,0.2)] hover:shadow-[0_0_25px_5px_rgba(96,165,250,0.35)] transition-shadow duration-300"> {/* Neon effect and adjusted border */}
+      <div className="group relative flex w-1/2 flex-col items-center justify-center overflow-hidden border-l border-blue-500/20 bg-black text-white">
         <div className="absolute inset-0 z-0">
           <NeuralNetworkAnimation />
         </div>

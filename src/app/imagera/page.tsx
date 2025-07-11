@@ -13,7 +13,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Sidebar } from '@/components/sidebar';
 
-export default function ImageraPage() {
+// Extracted content into a new component
+function ImageraPageContent() {
   const [prompt, setPrompt] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const [generatedImage, setGeneratedImage] = React.useState<string | null>(null);
@@ -185,5 +186,23 @@ export default function ImageraPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+// Define a simple loading skeleton or fallback UI for ImageraPage
+function LoadingImageraFallback() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-background">
+      {/* You can use a specific Imagera loader or a generic one */}
+      <Loader2 className="h-12 w-12 animate-spin text-primary" />
+    </div>
+  );
+}
+
+export default function ImageraPage() {
+  return (
+    <React.Suspense fallback={<LoadingImageraFallback />}>
+      <ImageraPageContent />
+    </React.Suspense>
   );
 }
