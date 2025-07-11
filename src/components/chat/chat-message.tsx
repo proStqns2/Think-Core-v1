@@ -8,12 +8,16 @@ import { Logo } from '../ui/logo';
 import { Button } from '../ui/button';
 import { useToast } from '@/hooks/use-toast';
 
+import { Trash2 } from 'lucide-react'; // Added Trash2 icon
+
 interface ChatMessageProps {
   message?: Message;
   isLoading?: boolean;
+  mode?: 'standard' | 'advanced';
+  onDeleteMessage?: (messageId: string) => void; // Added onDeleteMessage prop
 }
 
-export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
+export function ChatMessage({ message, isLoading = false, mode = 'standard', onDeleteMessage }: ChatMessageProps) {
   const { toast } = useToast();
 
   const handleCopy = (content: string) => {
@@ -76,7 +80,7 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
       >
         <div
           className={cn(
-            'max-w-md rounded-lg p-3 shadow-md',
+            'max-w-md rounded-lg p-3 shadow-md flex flex-col', // Added flex flex-col
             isUser
               ? 'bg-primary text-primary-foreground'
               : isSystem
@@ -84,8 +88,15 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
               : 'bg-card border'
           )}
         >
+          {/* Sender Name */}
+          <p className={cn(
+            "text-xs font-medium mb-1",
+            isUser ? "text-primary-foreground/80" : "text-muted-foreground"
+          )}>
+            {isUser ? "You" : isAssistant ? (mode === 'advanced' ? "EloquentAI Advanced" : "EloquentAI") : "System"}
+          </p>
           <p className="whitespace-pre-wrap text-sm">{content}</p>
-          <div className="mt-1 flex items-center justify-end gap-2">
+          <div className="mt-1 flex items-center justify-end gap-2 self-end"> {/* Added self-end */}
             {isAssistant && status && (
               <div
                 className={cn('h-2 w-2 rounded-full', {
@@ -122,6 +133,37 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
           >
             <Copy className="h-4 w-4" />
             <span className="sr-only">Copy message</span>
+          </Button>
+        )}
+        {/* Reactions Section */}
+        {isAssistant && !isLoading && (
+          <div className="flex gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity items-center">
+            {['👍', '❤️', '😂', '😮'].map((emoji) => (
+              <Button
+                key={emoji}
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 text-xs hover:bg-muted/50"
+                onClick={() => {
+                  toast({ title: `Reacted with ${emoji}` });
+                  // TODO: Implement actual reaction state update if needed
+                }}
+              >
+                {emoji}
+              </Button>
+            ))}
+          </div>
+        )}
+        {/* Delete Button for User messages */}
+        {isUser && onDeleteMessage && message && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={() => onDeleteMessage(message.id)}
+          >
+            <Trash2 className="h-4 w-4" />
+            <span className="sr-only">Delete message</span>
           </Button>
         )}
       </div>

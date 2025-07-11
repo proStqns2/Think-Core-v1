@@ -62,27 +62,30 @@ export function ChatInput({
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder="Assign a task or ask anything"
-            className="flex-1 resize-none border-0 bg-transparent px-2 pt-2 shadow-none focus-visible:ring-0"
+            className="flex-1 resize-none border-0 bg-transparent px-2 pt-2 shadow-none focus-visible:ring-1 focus-visible:ring-ring/50" // Added subtle focus ring
             rows={1}
             disabled={isLoading}
             aria-label="Chat input"
           />
           <div className="flex items-center justify-between mt-2">
             <div className="flex items-center gap-1">
-              <Button variant="ghost" size="icon" type="button" onClick={onAttach} className="text-muted-foreground">
+              {/* TODO: Implement Attach file functionality */}
+              {/* <Button variant="ghost" size="icon" type="button" onClick={onAttach} className="text-muted-foreground">
                 <Paperclip className="h-5 w-5" />
                 <span className="sr-only">Attach file</span>
-              </Button>
-              <Button variant="ghost" size="icon" type="button" onClick={onMic} className="text-muted-foreground">
+              </Button> */}
+              {/* TODO: Implement Use microphone functionality */}
+              {/* <Button variant="ghost" size="icon" type="button" onClick={onMic} className="text-muted-foreground">
                 <Mic className="h-5 w-5" />
                 <span className="sr-only">Use microphone</span>
-              </Button>
+              </Button> */}
             </div>
             <div className="flex items-center gap-1">
-               <Button variant="ghost" size="icon" type="button" onClick={onSettings} className="text-muted-foreground">
+              {/* TODO: Implement Settings functionality */}
+              {/* <Button variant="ghost" size="icon" type="button" onClick={onSettings} className="text-muted-foreground">
                 <Settings className="h-5 w-5" />
                 <span className="sr-only">Settings</span>
-              </Button>
+              </Button> */}
               <Button type="submit" size="icon" disabled={isLoading || !input.trim()} aria-label="Send message">
                 <ArrowRight className="h-5 w-5" />
               </Button>

@@ -8,9 +8,11 @@ import { ChatMessage } from './chat-message';
 interface ChatMessagesProps {
   messages: Message[];
   isLoading: boolean;
+  mode: 'standard' | 'advanced';
+  onDeleteMessage?: (messageId: string) => void; // Added onDeleteMessage prop
 }
 
-export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
+export function ChatMessages({ messages, isLoading, mode, onDeleteMessage }: ChatMessagesProps) { // Added onDeleteMessage prop
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const viewportRef = React.useRef<HTMLDivElement>(null);
 
@@ -39,9 +41,14 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
         ) : (
           <div className="space-y-4">
             {messages.map((message) => (
-              <ChatMessage key={message.id} message={message} />
+              <ChatMessage
+                key={message.id}
+                message={message}
+                mode={mode}
+                onDeleteMessage={onDeleteMessage} // Pass onDeleteMessage
+              />
             ))}
-            {isLoading && <ChatMessage isLoading />}
+            {isLoading && <ChatMessage isLoading mode={mode} />} {/* onDeleteMessage not needed for loading skeleton */}
           </div>
         )}
       </div>

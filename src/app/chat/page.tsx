@@ -100,27 +100,37 @@ function ChatPageContent() {
     await submitMessage(prompt);
   };
   
-  const handleAttach = () => {
-    toast({
-      title: 'Feature not implemented',
-      description: 'File uploads are not yet available.',
-    });
-  };
+  // TODO: Implement Attach file functionality
+  // const handleAttach = () => {
+  //   toast({
+  //     title: 'Feature not implemented',
+  //     description: 'File uploads are not yet available.',
+  //   });
+  // };
 
-  const handleMic = () => {
-    toast({
-      title: 'Feature not implemented',
-      description: 'Voice input is not yet available.',
-    });
-  };
+  // TODO: Implement Use microphone functionality
+  // const handleMic = () => {
+  //   toast({
+  //     title: 'Feature not implemented',
+  //     description: 'Voice input is not yet available.',
+  //   });
+  // };
   
-  const handleSettings = () => {
+  // TODO: Implement Settings functionality
+  // const handleSettings = () => {
+  //   toast({
+  //     title: 'Feature not implemented',
+  //     description: 'Settings functionality is not yet available.',
+  //   });
+  // };
+
+  const handleDeleteMessage = (messageId: string) => {
+    setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== messageId));
     toast({
-      title: 'Feature not implemented',
-      description: 'Settings functionality is not yet available.',
+      title: 'Message Deleted',
+      description: 'The message has been removed from the chat.',
     });
   };
-
 
   const handleSummarize = async () => {
     if (messages.length === 0 || isLoading) return;
@@ -204,9 +214,13 @@ function ChatPageContent() {
           onExport={handleExport}
           mode={mode}
           onSuggestionClick={handleSuggestionClick}
-          onAttach={handleAttach}
-          onMic={handleMic}
-          onSettings={handleSettings}
+          onDeleteMessage={handleDeleteMessage} // Pass handleDeleteMessage
+          // TODO: Implement Attach file functionality
+          // onAttach={handleAttach}
+          // TODO: Implement Use microphone functionality
+          // onMic={handleMic}
+          // TODO: Implement Settings functionality
+          // onSettings={handleSettings}
         />
       </main>
     </div>
