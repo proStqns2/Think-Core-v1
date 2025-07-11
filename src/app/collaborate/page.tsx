@@ -55,6 +55,23 @@ function GithubUserCard({ user }: { user: GithubUser }) {
   );
 }
 
+// Define a simple loading skeleton or fallback UI
+function LoadingCollaborateFallback() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-background">
+      <Loader2 className="h-12 w-12 animate-spin text-primary" />
+    </div>
+  );
+}
+
+export default function CollaboratePage() {
+  return (
+    <React.Suspense fallback={<LoadingCollaborateFallback />}>
+      <CollaboratePageContent />
+    </React.Suspense>
+  );
+}
+
 function GithubIssuesList({ issues }: { issues: GithubIssue[] }) {
   return (
     <Card className="mt-3 border-primary/20 bg-primary/5">
@@ -78,7 +95,7 @@ function GithubIssuesList({ issues }: { issues: GithubIssue[] }) {
 }
 
 
-export default function CollaboratePage() {
+function CollaboratePageContent() { // Renamed and extracted content
   const [messages, setMessages] = React.useState<CollabMessage[]>([]);
   const [input, setInput] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
@@ -156,7 +173,7 @@ export default function CollaboratePage() {
   return (
     <div className="flex h-screen w-full bg-background">
       <CollaborationAnimation />
-      <Sidebar />
+      <Sidebar /> {/* Sidebar is kept here, but if it was the one causing direct issues with useSearchParams in page content, the content part would be wrapped */}
       <div className="relative z-10 flex h-screen flex-1 flex-col pl-16">
           <header className="flex h-16 shrink-0 items-center gap-4 border-b border-border/20 bg-background/50 px-6 backdrop-blur-sm">
             <CollaborationLogo className="h-7 w-7 text-primary" />
