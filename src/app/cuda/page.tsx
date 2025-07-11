@@ -20,7 +20,7 @@ type CudaMessage = {
   content: string;
 };
 
-export default function CudaPage() {
+function CudaPageContent() { // Renamed and extracted content
   const [messages, setMessages] = React.useState<CudaMessage[]>([]);
   const [input, setInput] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
@@ -187,5 +187,21 @@ export default function CudaPage() {
         </footer>
       </div>
     </div>
+  );
+}
+
+function LoadingCudaFallback() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-background">
+      <Loader2 className="h-12 w-12 animate-spin text-primary" />
+    </div>
+  );
+}
+
+export default function CudaPage() {
+  return (
+    <React.Suspense fallback={<LoadingCudaFallback />}>
+      <CudaPageContent />
+    </React.Suspense>
   );
 }
