@@ -1,0 +1,12 @@
+{
+  "env": {
+    "GENKIT_ENV": "production",
+    "GOOGLE_API_KEY": "@google-api-key"
+  },
+  "build": {
+    "env": {
+      "GENKIT_ENV": "production",
+      "GOOGLE_API_KEY": "@google-api-key"
+    }
+  }
+}

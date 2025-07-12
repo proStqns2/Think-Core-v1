@@ -76,12 +76,12 @@ export function ChatMessage({ message, isLoading = false }: ChatMessageProps) {
       >
         <div
           className={cn(
-            'max-w-md rounded-lg p-3 shadow-md',
+          'max-w-md rounded-xl p-4 shadow-lg transition-shadow duration-300 hover:shadow-xl',
             isUser
-              ? 'bg-primary text-primary-foreground'
+            ? 'bg-blue-600 text-white'
               : isSystem
-              ? 'bg-accent/20 border border-accent/50'
-              : 'bg-card border'
+            ? 'bg-purple-500/20 border border-purple-500/50'
+            : 'bg-white dark:bg-gray-800'
           )}
         >
           <p className="whitespace-pre-wrap text-sm">{content}</p>

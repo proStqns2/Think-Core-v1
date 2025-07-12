@@ -24,6 +24,7 @@ interface ChatHeaderProps {
   onSummarize: () => void;
   onExport: () => void;
   onNewChat: () => void;
+  children?: React.ReactNode;
 }
 
 export function ChatHeader({
@@ -31,6 +32,7 @@ export function ChatHeader({
   onSummarize,
   onExport,
   onNewChat,
+  children,
 }: ChatHeaderProps) {
   const isAdvanced = mode === 'advanced';
 
@@ -46,6 +48,7 @@ export function ChatHeader({
         <h1 className="text-xl font-semibold tracking-tight">
           {isAdvanced ? 'Advanced Chat' : 'Standard Chat'}
         </h1>
+        {children}
       </div>
 
       {/* Right side: Actions & User Info */}
