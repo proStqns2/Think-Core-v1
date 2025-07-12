@@ -13,6 +13,7 @@ import {z} from 'genkit';
 
 const AdvancedAIChatResponseInputSchema = z.object({
   prompt: z.string().describe('The prompt from the user.'),
+  model: z.string().optional().describe('The model to use for the response.'),
 });
 export type AdvancedAIChatResponseInput = z.infer<typeof AdvancedAIChatResponseInputSchema>;
 

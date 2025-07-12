@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Paperclip, Mic, Settings, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 
 interface ChatInputProps {
@@ -84,7 +85,7 @@ export function ChatInput({
                 <span className="sr-only">Settings</span>
               </Button>
               <Button type="submit" size="icon" disabled={isLoading || !input.trim()} aria-label="Send message">
-                <ArrowRight className="h-5 w-5" />
+                {isLoading ? <Spinner className="h-5 w-5" /> : <ArrowRight className="h-5 w-5" />}
               </Button>
             </div>
           </div>
